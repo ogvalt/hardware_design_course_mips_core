@@ -26,14 +26,12 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                        .o_data    (extended)
                       );
 
-  mux2in1 ALUSOURCE ( .i_data0    (i_op2), 
-                      .i_data0    (extended), 
+  mux2in1 ALUSOURCE ( .i_dat0    (i_op2), 
+                      .i_dat1    (extended), 
                       .i_control  (i_ALUSrc), 
                       .o_dat      (aluOp2)
                     );
-
-  alu ALU ( 
-            .i_op1  (i_op1), 
+  alu ALU ( .i_op1  (i_op1), 
             .i_op2  (aluOp2), 
             .i_control(ALUCtrl), 
             .o_result(o_ALUres), 
@@ -52,10 +50,9 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                   .i_beq(i_beq), 
                   .i_bne(i_bne), 
                   .i_zerof(zerof), 
-                  .o_nextPC(o_nextPC), 
+                  .o_nextpc(o_nextPC), 
                   .o_pcsrc(o_pcsrc)
-                );
-                
+                ); 
   assign o_op2 = i_op2;
-  
+
 endmodule
