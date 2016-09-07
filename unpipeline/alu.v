@@ -22,30 +22,3 @@ always @(i_control, i_op1, i_op2) begin
   default: o_result <= 32'b0;
   endcase
 end  
-endmodule
-
-module testbench_alu();
-
-reg [31:0] i_op1, i_op2;
-reg [3:0]  i_control;
-wire[31:0] o_result;
-wire       o_zf;
-integer i,j;
-
-alu a(i_op1, i_op2, i_control, o_result, o_zf);
-
-initial begin
-  i_op1 <= 32'b0;
-  i_op2 <= 32'b0;
-  for (i_control=4'b0; i_control<4'b1111; i_control = i_control + 4'b1) begin
-    for (i=0; i<3; i=i+1) begin
-      for (j=0; j<3; j=j+1) begin
-        #1;
-        i_op2 = i_op2 + 32'hffff000;
-        //$display("%d", o_result);
-    end
-    i_op1 = i_op1 + 32'hffecfd0;
-    end
-  end
-end
-endmodule

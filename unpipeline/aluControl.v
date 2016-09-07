@@ -32,36 +32,3 @@ always @(i_aluOp or i_func) begin
   endcase
 end
 endmodule
-
-module testbench_alucontrol();
-
-localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
-localparam F_SUB = 6'b100010, F_SOLT = 6'b101010, F_NOR = 6'b100111;
-
-reg  [1:0]   i_aluOp;
-reg  [5:0]   i_func;
-wire [3:0]   o_aluControl;
-
-
-
-aluControl a(i_aluOp, i_func, o_aluControl);
-
-initial begin
-  i_aluOp <= 2'b0;
-  i_func  <= 6'b0;
-  for (i_aluOp=2'b0; i_aluOp<2'b11; i_aluOp = i_aluOp + 2'b1) begin
-    #2;
-    i_func <= F_AND;
-    #2;
-    i_func <= F_OR;
-    #2;
-    i_func <= F_ADD;
-    #2;
-    i_func <= F_SUB;
-    #2;
-    i_func <= F_SOLT;
-    #2;
-    i_func <= F_NOR;
-  end
-end
-endmodule 

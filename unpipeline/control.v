@@ -136,35 +136,5 @@ always @(i_instrCode) begin
   	endcase
   end	
 endmodule
-
-module test_controlUnit ();
-  localparam OP_RTYPE = 6'h0, OP_ADDI = 6'h8, OP_ADDIU = 6'h9;
-  localparam OP_LW = 6'h23, OP_SW = 6'h2B;
-  localparam OP_BEQ = 6'h4, OP_J = 6'h2;
-  
-reg[5:0]  i_instrCode; // there was[15:0] 
-wire   o_regDst, o_jump, o_beq, o_memToReg, o_memWrite, o_aluSrc, o_regWrite;
-wire [1:0] o_aluOp;  
-
-control Ctrl(i_instrCode, o_regDst, o_jump, o_beq, o_memToReg, o_aluOp, o_memWrite, o_aluSrc, o_regWrite);
-initial begin
-  #5;
-  i_instrCode <= OP_RTYPE;
-  #10;
-  i_instrCode <= OP_ADDI;
-  #10;
-  i_instrCode <= OP_ADDIU;
-  #10;
-  i_instrCode <= OP_LW;
-  #10;
-  i_instrCode <= OP_SW;
-  #10;
-  i_instrCode <= OP_BEQ;
-  #10;
-  i_instrCode <= OP_J;
-  #10;
-  $stop();
-end
-endmodule
-         
+        
         
