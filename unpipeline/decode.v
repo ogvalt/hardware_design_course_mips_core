@@ -17,7 +17,7 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   
   output [4:0]  o_wrAddr; //output of write address (need for corect pipelining)
     
-  regFile REGISTERS ( .i_clk    (i_clk), 
+  regFile REGISTERS(.i_clk    (i_clk), 
                       .i_rst_n  (i_rst_n),
                       .i_raddr1 (i_Rs), 
                       .i_raddr2 (i_Rt), 
@@ -28,10 +28,11 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                       .o_rdata2 (o_decode_op2)
                     );
 
-  mux2in1 REGDEST ( .i_dat0(i_Rt), 
+  mux2in1 REGDEST ( 
+                    .i_dat0(i_Rt), 
                     .i_dat1(i_Rd), 
                     .i_control(i_c_regDst), 
-                    .o_wrAddr(o_dat)
+                    .o_dat(o_wrAddr)
                     );
   
 endmodule

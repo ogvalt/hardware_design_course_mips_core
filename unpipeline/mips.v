@@ -56,5 +56,5 @@ module mips();
     #1;
     i_rst_n <= 1'b1;
   end 
-  initial $readmemh("G:/CourseWorkMIPS/backup1/rom_init.dat", FETCH.ROM.memory); 
+  initial $readmemh("G:/STUDING/melexis/lab5/unpipeline/rom_init.dat", FETCH.ROM.memory); 
 endmodule

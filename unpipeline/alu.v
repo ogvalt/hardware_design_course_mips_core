@@ -22,3 +22,5 @@ always @(i_control, i_op1, i_op2) begin
   default: o_result <= 32'b0;
   endcase
 end  
+
+endmodule // alu
