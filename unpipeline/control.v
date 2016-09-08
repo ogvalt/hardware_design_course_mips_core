@@ -83,14 +83,14 @@ always @(i_instrCode) begin
       		end
   	  OP_SW:
 	      begin
-      		o_regDst   <= 1'bz;
+      		o_regDst   <= 1'b0;
       		o_regWrite <= 1'b0;
       		o_aluSrc   <= 1'b1;
       		o_beq   <= 1'b0;
 			    o_bne	<= 1'b0;
       		o_jump	    <= 1'b0;
       		o_memWrite <= 1'b1;
-      		o_memToReg <= 1'bz;
+      		o_memToReg <= 1'b0;
       		o_aluOp    <= 2'b00;
       		o_extOp    <= 1'b1;
       		end
@@ -103,7 +103,7 @@ always @(i_instrCode) begin
       		o_beq   <= 1'b0;
       		o_jump	    <= 1'b1;
       		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'bz;
+      		o_memToReg <= 1'b0;
       		o_aluOp    <= 2'bzz;
       		o_extOp    <= 1'b0;
       		end
