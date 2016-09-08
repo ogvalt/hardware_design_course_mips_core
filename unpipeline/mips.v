@@ -29,22 +29,64 @@ module mips();
   wire        beq; //control
   wire		      bne; // control
   
-  fetch FETCH(i_clk, i_rst_n, o_nextpc, o_pcsrc, o_pc, o_instr);
+  fetch FETCH(  .i_clk(i_clk), 
+                .i_rst_n(i_rst_n), 
+                .i_execute(o_nextpc), 
+                .i_pcsrc(o_pcsrc), 
+                .o_fetch_pc(o_pc), 
+                .o_fetch_instr(o_instr)
+              );
  
-  decode DECODE(i_clk, i_rst_n, regDst, regWrite, 
-                o_instr[25:21], o_instr[20:16], 
-                o_instr[15:11], o_writeToReg, o_regDest,
-                o_bus_A, o_bus_B, o_regDest);
+  decode DECODE(.i_clk(i_clk), 
+                .i_rst_n(i_rst_n), 
+                .i_c_regDst(regDst), 
+                .i_c_regWrite(regWrite), 
+                .i_Rs(o_instr[25:21]), 
+                .i_Rt(o_instr[20:16]), 
+                .i_Rd(o_instr[15:11]), 
+                .i_wrDataToReg(o_writeToReg), 
+                .i_wrAddr(o_regDest),
+                .o_decode_op1(o_bus_A), 
+                .o_decode_op2(o_bus_B), 
+                .o_wrAddr(o_regDest)
+                );
                 
-  execute EXECUTE(o_pc, o_instr[25:0], o_bus_A, o_bus_B,
-                  ALUSrc, ALUop, jump, extOp,
-                  beq, bne, o_op2, 
-                  o_ALUResult, o_nextpc, o_pcsrc);
+  execute EXECUTE(  .i_pc(o_pc), 
+                    .i_imm(o_instr[25:0]), 
+                    .i_op1(o_bus_A), 
+                    .i_op2(o_bus_B),
+                    .i_ALUSrc(ALUSrc), 
+                    .i_ALUop(ALUop), 
+                    .i_jump(jump), 
+                    .i_extOp(extOp),
+                    .i_beq(beq), 
+                    .i_bne(bne), 
+                    .o_op2(o_op2), 
+                    .o_ALUres(o_ALUResult), 
+                    .o_nextPC(o_nextpc), 
+                    .o_pcsrc(o_pcsrc)
+                  );
   
-  memory MEMORY(i_clk, o_ALUResult, o_op2, memWrite, memToReg, o_writeToReg);
+  memory MEMORY(  .i_clk(i_clk), 
+                  .i_alu(o_ALUResult), 
+                  .i_data(o_op2), 
+                  .i_memWrite(memWrite), 
+                  .i_memToReg(memToReg), 
+                  .o_data(o_writeToReg)
+                );
   
-  control CONTROL(o_instr[31:26], regDst, jump, beq, bne, 
-                  memToReg, ALUop, memWrite, ALUSrc, regWrite, extOp);
+  control CONTROL(  .i_instrCode(o_instr[31:26]), 
+                    .o_regDst(regDst), 
+                    .o_jump(jump), 
+                    .o_beq(beq), 
+                    .o_bne(bne), 
+                    .o_memToReg(memToReg), 
+                    .o_aluOp(ALUop), 
+                    .o_memWrite(memWrite), 
+                    .o_aluSrc(ALUSrc), 
+                    .o_regWrite(regWrite),
+                    .o_extOp(extOp)
+                  );
   
   initial begin //clock set up
     #1;
