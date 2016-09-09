@@ -1,7 +1,7 @@
 //`timescale 1ps/1ps;
 module alu(i_op1, i_op2, i_control, o_result, o_overflow, o_zf);
 
-localparam ADD = 4'b0000, SUB = 4'b0010, AND = 4'b0100;
+localparam ADD = 4'b0000, ADDU = 4'b0001, SUB = 4'b0010, AND = 4'b0100;
 localparam OR  = 4'b0101, NOR = 4'b0110, SLT = 4'b1010;
   
 input       [31:0]  i_op1, i_op2;
@@ -25,6 +25,7 @@ always @(i_control, i_op1, i_op2) begin
         o_result    = result[31:0];
         o_overflow  = result[32];
       end
+   ADDU:   o_result = i_op1+i_op2;
     SUB:   o_result = i_op1-i_op2;
     SLT:   o_result =(i_op1<i_op2)?(1):(0);
     NOR:   o_result =~(i_op1|i_op2);

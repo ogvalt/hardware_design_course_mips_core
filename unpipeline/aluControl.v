@@ -6,7 +6,7 @@ localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
 localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
 localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011;
 
-localparam ADD = 4'b0000, SUB = 4'b0010, AND = 4'b0100;
+localparam ADD = 4'b0000, ADDU = 4'b0001, SUB = 4'b0010, AND = 4'b0100;
 localparam OR  = 4'b0101, NOR = 4'b0110, SLT = 4'b1010;
    
 input       [1:0]   i_aluOp;
@@ -20,13 +20,13 @@ always @(i_aluOp or i_func) begin
     OP_RTYPE: 
       begin
         case(i_func)
+           F_ADD: o_aluControl <= ADD;
+          F_ADDU: o_aluControl <= ADDU;
            F_AND: o_aluControl <= AND; 
             F_OR: o_aluControl <= OR;
-           F_ADD: o_aluControl <= ADD;
            F_SUB: o_aluControl <= SUB;
-          F_SLT: o_aluControl <= SLT;
+           F_SLT: o_aluControl <= SLT;
            F_NOR: o_aluControl <= NOR;
-          F_ADDU: o_aluControl <= ADD;
           F_SUBU: o_aluControl <= SUB;
          endcase
        end
