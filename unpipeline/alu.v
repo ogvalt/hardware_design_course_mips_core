@@ -10,6 +10,8 @@ output  reg [31:0]  o_result;
 output  reg         o_overflow;
 output              o_zf;
 
+reg         [32:0]  result;
+
 assign o_zf = (o_result==0);
 
 always @(i_control, i_op1, i_op2) begin
@@ -17,7 +19,12 @@ always @(i_control, i_op1, i_op2) begin
   case(i_control)
     AND:   o_result = i_op1&i_op2;
      OR:   o_result = i_op1|i_op2;
-    ADD:   o_result = i_op1+i_op2;
+    ADD:   
+      begin
+        result      = i_op1+i_op2;
+        o_result    = result[31:0];
+        o_overflow  = result[32];
+      end
     SUB:   o_result = i_op1-i_op2;
     SLT:   o_result =(i_op1<i_op2)?(1):(0);
     NOR:   o_result =~(i_op1|i_op2);

@@ -1,6 +1,7 @@
 module aluControl(i_aluOp, i_func, o_aluControl);
 
 localparam OP_LS = 2'b00, OP_BQ = 2'b01, OP_RTYPE = 2'b10;
+
 localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
 localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
 localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011;
