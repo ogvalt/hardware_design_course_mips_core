@@ -1,9 +1,10 @@
 module nextPC(i_pc, i_imm, i_jump, i_beq, i_bne, i_zerof, o_nextpc, o_pcsrc);
+
   input   [31:0]  i_pc;
   input   [25:0]  i_imm;
   input           i_jump;
   input           i_beq;
-  input			  i_bne;
+  input			      i_bne;
   input           i_zerof;
   output  [31:0]  o_nextpc;
   output          o_pcsrc;
@@ -13,7 +14,7 @@ module nextPC(i_pc, i_imm, i_jump, i_beq, i_bne, i_zerof, o_nextpc, o_pcsrc);
   wire    [31:0]  o_ext;
   wire    [31:0]  o_shift;
   wire            i_zerof;
-  wire			  inv_zero;
+  wire			      inv_zero;
   
   assign imm_conc = {i_pc[31:28],i_imm[25:0],{2{i_zerof}}};
   assign inv_zero = ~i_zerof;

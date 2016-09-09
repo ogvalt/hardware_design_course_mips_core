@@ -19,14 +19,13 @@ reg [31:0] memory [0:31];
 assign o_rdata1 = memory[i_raddr1];
 assign o_rdata2 = memory[i_raddr2]; 
 
-always @ (posedge i_clk or i_rst_n) begin
-  if(i_rst_n) begin
-    if(i_we)
-      memory[i_waddr] <= i_wdata;  
+always @ (posedge i_clk or negedge i_rst_n) begin
+  if(!i_rst_n) begin  
+    memory[0] <= 32'b0;
+  end else begin
+    if(i_we) memory[i_waddr] <= i_wdata; 
     memory[0] <= 32'b0;
   end
-  else 
-    memory[0] <= 32'b0;
 end
 
 endmodule

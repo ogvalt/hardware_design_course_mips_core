@@ -89,8 +89,8 @@ module mips();
                   );
   
   initial begin //clock set up
-    #1;
     i_clk <= 1'b0;
+    #1;
     forever #1 i_clk <= ~i_clk;
   end
   initial begin //initial reset
