@@ -35,6 +35,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
             .i_op2  (aluOp2), 
             .i_control(ALUCtrl), 
             .o_result(o_ALUres), 
+            .o_overflow(),
             .o_zf(zerof)
           );
 
