@@ -3,6 +3,7 @@ module alu(i_op1, i_op2, i_control, o_result, o_overflow, o_zf);
 
 localparam ADD = 4'b0000, ADDU = 4'b0001, SUB = 4'b0010, AND = 4'b0100;
 localparam OR  = 4'b0101, NOR = 4'b0110, SLT = 4'b1010, LUI = 4'b1001;
+localparam XOR = 4'b0111;
   
 input       [31:0]  i_op1, i_op2;
 input       [3:0]   i_control;
@@ -30,6 +31,7 @@ always @(i_control, i_op1, i_op2) begin
     SLT:   o_result =(i_op1<i_op2)?(1):(0);
     NOR:   o_result =~(i_op1|i_op2);
     LUI:   o_result = {i_op2,16'b0};
+    XOR:   o_result = i_op1 ^ i_op2;
   default: o_result = 32'b0;
   endcase
 end  

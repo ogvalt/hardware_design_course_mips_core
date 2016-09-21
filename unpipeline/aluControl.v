@@ -1,16 +1,17 @@
 module aluControl(i_aluOp, i_func, o_aluControl);
 
 localparam OP_RTYPE = 6'h0, OP_ADDI = 6'h8, OP_ADDIU = 6'h9;
-localparam OP_LUI = 6'b001111, OP_ORI = 6'h001101;
+localparam OP_LUI = 6'b001111, OP_ORI = 6'h001101, OP_XORI = 6'b001110;
 localparam OP_LW = 6'h23, OP_SW = 6'h2B;
 localparam OP_BEQ = 6'h4, OP_J = 6'h2, OP_BNE = 6'h5;  
 
 localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
 localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
-localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011;
+localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011, F_XOR = 6'b100110;
 
 localparam ADD = 4'b0000, ADDU = 4'b0001, SUB = 4'b0010, AND = 4'b0100;
 localparam OR  = 4'b0101, NOR = 4'b0110, SLT = 4'b1010, LUI = 4'b1001;
+localparam XOR = 4'b0111;
    
 input       [5:0]   i_aluOp;
 input       [5:0]   i_func;
@@ -35,10 +36,12 @@ always @(i_aluOp or i_func) begin
             F_SLT:  o_aluControl <= SLT;
             F_NOR:  o_aluControl <= NOR;
             F_SUBU: o_aluControl <= SUB;
+            F_XOR:  o_aluControl <= XOR;
           endcase
         end
       OP_LUI:       o_aluControl <= LUI;
       OP_ORI:       o_aluControl <= OR;
+      OP_XORI:      o_aluControl <= XOR;
       default:      o_aluControl <= 0;
   endcase
 end
