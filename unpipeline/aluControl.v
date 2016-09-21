@@ -2,6 +2,7 @@ module aluControl(i_aluOp, i_func, o_aluControl);
 
 localparam OP_RTYPE = 6'h0, OP_ADDI = 6'h8, OP_ADDIU = 6'h9;
 localparam OP_LUI = 6'b001111, OP_ORI = 6'h001101, OP_XORI = 6'b001110;
+localparam OP_ANDI = 6'b001100;
 localparam OP_LW = 6'h23, OP_SW = 6'h2B;
 localparam OP_BEQ = 6'h4, OP_J = 6'h2, OP_BNE = 6'h5;  
 
@@ -42,6 +43,7 @@ always @(i_aluOp or i_func) begin
       OP_LUI:       o_aluControl <= LUI;
       OP_ORI:       o_aluControl <= OR;
       OP_XORI:      o_aluControl <= XOR;
+      OP_ANDI:      o_aluControl <= AND;
       default:      o_aluControl <= 0;
   endcase
 end
