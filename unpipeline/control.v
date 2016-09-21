@@ -35,12 +35,11 @@ always @(i_instrCode) begin
           o_regDst   <= 1'b1;
 		      o_regWrite <= 1'b1;
       		o_aluSrc   <= 1'b0;
-      		o_beq   	<= 1'b0;
-			    o_bne		<= 1'b0;
-      		o_jump	    <= 1'b0;
+      		o_beq   	 <= 1'b0;
+			    o_bne		   <= 1'b0;
+      		o_jump	   <= 1'b0;
       		o_memWrite <= 1'b0;
       		o_memToReg <= 1'b0;
-      		// o_aluOp    <= 2'b10;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b0;
       	end
@@ -54,7 +53,6 @@ always @(i_instrCode) begin
       		o_jump	    <= 1'b0;
       		o_memWrite <= 1'b0;
       		o_memToReg <= 1'b0;
-      		// o_aluOp    <= 2'b00;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b1;
       	end
@@ -63,14 +61,13 @@ always @(i_instrCode) begin
           o_regDst   <= 1'b0;
           o_regWrite <= 1'b1;
           o_aluSrc   <= 1'b1;
-          o_beq   <= 1'b0;
-          o_bne <= 1'b0;
-          o_jump      <= 1'b0;
+          o_beq      <= 1'b0;
+          o_bne      <= 1'b0;
+          o_jump     <= 1'b0;
           o_memWrite <= 1'b0;
           o_memToReg <= 1'b0;
-          // o_aluOp    <= 2'b00;
           o_aluOp    <= i_instrCode;
-          o_extOp    <= 1'b1; 
+          o_extOp    <= 1'b0; 
         end
   		OP_ADDIU:
   		  begin
@@ -82,7 +79,6 @@ always @(i_instrCode) begin
       		o_jump	   <= 1'b0;
       		o_memWrite <= 1'b0;
       		o_memToReg <= 1'b0;
-      		// o_aluOp    <= 2'b00;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b1;
       	end
@@ -96,7 +92,6 @@ always @(i_instrCode) begin
       		o_jump	    <= 1'b0;
       		o_memWrite <= 1'b0;
       		o_memToReg <= 1'b1;
-      		// o_aluOp    <= 2'b00;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b1;
       	end
@@ -110,7 +105,6 @@ always @(i_instrCode) begin
       		o_jump	    <= 1'b0;
       		o_memWrite <= 1'b1;
       		o_memToReg <= 1'b0;
-      		// o_aluOp    <= 2'b00;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b1;
       	end
@@ -124,7 +118,6 @@ always @(i_instrCode) begin
       		o_jump	    <= 1'b1;
       		o_memWrite <= 1'b0;
       		o_memToReg <= 1'b0;
-      		// o_aluOp    <= 2'bzz;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b0;
       	end
@@ -138,7 +131,6 @@ always @(i_instrCode) begin
       		o_jump	    <= 1'b0;
       		o_memWrite <= 1'b0;
       		o_memToReg <= 1'bz;
-      		// o_aluOp    <= 2'b01;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b0;
       	end
@@ -152,7 +144,6 @@ always @(i_instrCode) begin
       		o_jump	    <= 1'b0;
       		o_memWrite <= 1'b0;
       		o_memToReg <= 1'bz;
-      		// o_aluOp    <= 2'b01;
           o_aluOp    <= i_instrCode;
       		o_extOp    <= 1'b0;
       	end
