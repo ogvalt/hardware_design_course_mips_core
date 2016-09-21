@@ -7,7 +7,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   input  [25:0] i_imm; //immidiate constant input
   input  [31:0] i_op1, i_op2; //operandrs input
   input         i_ALUSrc;
-  input  [ 1:0] i_ALUop;
+  input  [ 5:0] i_ALUop;
   input         i_jump, i_beq, i_bne; //condition control
   input         i_extOp; // extender control
   

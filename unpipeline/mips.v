@@ -24,7 +24,7 @@ module mips();
   wire        memWrite; //control
   wire [31:0] o_dataMemory; //output of data memory
   wire        memToReg; // control
-  wire [1:0]  ALUop; // opcode from control to ALUctrl
+  wire [5:0]  ALUop; // opcode from control to ALUctrl
   wire        jump; //control
   wire        beq; //control
   wire		      bne; // control
