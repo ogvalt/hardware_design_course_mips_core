@@ -10,7 +10,7 @@ localparam F_AND = 6'b100100, F_OR = 6'b100101, F_ADD = 6'b100000;
 localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
 localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011, F_XOR = 6'b100110;
 localparam F_SLTU = 6'b101011, F_SLLV = 6'b000100, F_LUI = 6'b111100;
-localparam F_SRLV = 6'b000110;
+localparam F_SRLV = 6'b000110, F_SRAV = 6'b000111;
 
 input       [5:0]   i_aluOp;
 input       [5:0]   i_func;
@@ -30,7 +30,8 @@ always @(i_aluOp or i_func) begin
             F_ADD, F_ADDU, F_AND,
             F_OR, F_SUB, F_SLT,
             F_SLTU, F_NOR, F_SUBU, 
-            F_XOR, F_SLLV, F_SRLV: o_aluControl <= i_func;
+            F_XOR, F_SLLV, F_SRLV,
+            F_SRAV: o_aluControl <= i_func;
             // default: // predict unknown function wire
           endcase
           
