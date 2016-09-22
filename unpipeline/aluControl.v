@@ -9,11 +9,11 @@ localparam OP_BEQ = 6'h4, OP_J = 6'h2, OP_BNE = 6'h5;
 localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
 localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
 localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011, F_XOR = 6'b100110;
-localparam F_SLTU = 6'b101011;
+localparam F_SLTU = 6'b101011, F_SLLV = 6'b000100;
 
 localparam ADD = 4'b0000, ADDU = 4'b0001, SUB = 4'b0010, AND = 4'b0100;
 localparam OR  = 4'b0101, NOR = 4'b0110, SLT = 4'b1010, LUI = 4'b1001;
-localparam XOR = 4'b0111, SLTU = 4'b1011;
+localparam XOR = 4'b0111, SLTU = 4'b1011, SLLV = 4'b1100;
    
 input       [5:0]   i_aluOp;
 input       [5:0]   i_func;
@@ -40,6 +40,7 @@ always @(i_aluOp or i_func) begin
             F_NOR:  o_aluControl <= NOR;
             F_SUBU: o_aluControl <= SUB;
             F_XOR:  o_aluControl <= XOR;
+            F_SLLV: o_aluControl <= SLLV;
           endcase
         end
       OP_LUI:       o_aluControl <= LUI;
