@@ -5,7 +5,8 @@ localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
 localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
 localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011, F_XOR = 6'b100110;
 localparam F_SLTU = 6'b101011, F_SLLV = 6'b000100, F_LUI = 6'b111100;
-  
+localparam F_SRLV = 6'b000110;
+
 input       [31:0]  i_op1, i_op2;
 input       [5:0]   i_control;
 output  reg [31:0]  o_result;
@@ -35,6 +36,7 @@ always @(i_control, i_op1, i_op2) begin
     F_LUI:   o_result = {i_op2,16'b0};
     F_XOR:   o_result = i_op1 ^ i_op2;
    F_SLLV:   o_result = i_op2 << i_op1;
+   F_SRLV:   o_result = i_op2 >> i_op1;
   default: o_result = 32'b0;
   endcase
 end  
