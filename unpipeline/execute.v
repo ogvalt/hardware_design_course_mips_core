@@ -19,7 +19,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   wire               zerof; // zero flag - alures=0
   wire        [31:0] extended; //value after extender
   wire        [31:0] aluOp2; //second alu operand
-  wire        [ 3:0] ALUCtrl; //aclu control code
+  wire        [ 5:0] ALUCtrl; //aclu control code
   
   signExtend EXTENDER( .i_data    (i_imm[15:0]), 
                        .i_control (i_extOp), 
