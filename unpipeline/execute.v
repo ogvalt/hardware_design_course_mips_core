@@ -35,7 +35,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                         );
 
   mux2in1 ALUSOURCE_OP1 ( .i_dat0   (i_op1),
-                          .i_dat1   (i_imm[10:6]),
+                          .i_dat1   ({27'b0,i_imm[10:6]}),
                           .i_control(ALUSrc_op1),
                           .o_dat    (aluOp1)
                         );

@@ -34,6 +34,11 @@ always @(i_aluOp or i_func) begin
             F_SLTU, F_NOR, F_SUBU, 
             F_XOR, F_SLLV, F_SRLV,
             F_SRAV: o_aluControl <= i_func;
+            F_SLL:
+              begin
+                    o_aluControl <= i_func;
+                    o_ALUSrc_op1 <= 1'b1;
+              end 
             // default: // predict unknown function wire
           endcase
           
