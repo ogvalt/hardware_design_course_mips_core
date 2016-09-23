@@ -16,7 +16,7 @@ module mips();
   wire [31:0] o_bus_A; // regFile read bus A output;
   wire [31:0] o_bus_B; // regFile read bus B output;
   wire [31:0] o_op2;
-  wire        ALUSrc; //control
+  wire        ALUSrc_op2; //control
   wire [31:0] o_alusource; //input second operand of ALU
   wire [3:0]  ALUCtrl; //ALUcontrol
   wire [31:0] o_ALUResult; //ALU output, input for memory or register
@@ -27,7 +27,7 @@ module mips();
   wire [5:0]  ALUop; // opcode from control to ALUctrl
   wire        jump; //control
   wire        beq; //control
-  wire		      bne; // control
+  wire		    bne; // control
   
   fetch FETCH(  .i_clk(i_clk), 
                 .i_rst_n(i_rst_n), 
@@ -55,7 +55,7 @@ module mips();
                     .i_imm(o_instr[25:0]), 
                     .i_op1(o_bus_A), 
                     .i_op2(o_bus_B),
-                    .i_ALUSrc(ALUSrc), 
+                    .i_ALUSrc_op2(ALUSrc_op2), 
                     .i_ALUop(ALUop), 
                     .i_jump(jump), 
                     .i_extOp(extOp),
@@ -83,7 +83,7 @@ module mips();
                     .o_memToReg(memToReg), 
                     .o_aluOp(ALUop), 
                     .o_memWrite(memWrite), 
-                    .o_aluSrc(ALUSrc), 
+                    .o_aluSrc_op2(ALUSrc_op2), 
                     .o_regWrite(regWrite),
                     .o_extOp(extOp)
                   );

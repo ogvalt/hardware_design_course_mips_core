@@ -6,7 +6,7 @@ module control(i_instrCode,
                o_memToReg,
                o_aluOp,
                o_memWrite,
-               o_aluSrc,
+               o_aluSrc_op2,
                o_regWrite,
                o_extOp
                );
@@ -25,7 +25,7 @@ output	  reg        o_bne;
 output    reg        o_memToReg;
 output    reg [5:0]  o_aluOp;
 output    reg        o_memWrite;
-output    reg        o_aluSrc;
+output    reg        o_aluSrc_op2;
 output    reg        o_regWrite;
 output    reg        o_extOp;
 
@@ -35,7 +35,7 @@ always @(i_instrCode) begin
         begin
           o_regDst   <= 1'b1;
 		      o_regWrite <= 1'b1;
-      		o_aluSrc   <= 1'b0;
+      		o_aluSrc_op2   <= 1'b0;
       		o_beq   	 <= 1'b0;
 			    o_bne		   <= 1'b0;
       		o_jump	   <= 1'b0;
@@ -48,7 +48,7 @@ always @(i_instrCode) begin
       	begin
       		o_regDst   <= 1'b0;
 		      o_regWrite <= 1'b1;
-      		o_aluSrc   <= 1'b1;
+      		o_aluSrc_op2   <= 1'b1;
       		o_beq      <= 1'b0;
 			    o_bne	     <= 1'b0;
       		o_jump	    <= 1'b0;
@@ -61,7 +61,7 @@ always @(i_instrCode) begin
         begin
           o_regDst   <= 1'b0;
           o_regWrite <= 1'b1;
-          o_aluSrc   <= 1'b1;
+          o_aluSrc_op2   <= 1'b1;
           o_beq      <= 1'b0;
           o_bne      <= 1'b0;
           o_jump     <= 1'b0;
@@ -74,7 +74,7 @@ always @(i_instrCode) begin
         begin
           o_regDst   <= 1'b0;
           o_regWrite <= 1'b1;
-          o_aluSrc   <= 1'b1;
+          o_aluSrc_op2   <= 1'b1;
           o_beq      <= 1'b0;
           o_bne      <= 1'b0;
           o_jump     <= 1'b0;
@@ -87,7 +87,7 @@ always @(i_instrCode) begin
         begin
           o_regDst   <= 1'b0;
           o_regWrite <= 1'b1;
-          o_aluSrc   <= 1'b1;
+          o_aluSrc_op2   <= 1'b1;
           o_beq      <= 1'b0;
           o_bne      <= 1'b0;
           o_jump     <= 1'b0;
@@ -100,7 +100,7 @@ always @(i_instrCode) begin
         begin
           o_regDst   <= 1'b0;
           o_regWrite <= 1'b1;
-          o_aluSrc   <= 1'b1;
+          o_aluSrc_op2   <= 1'b1;
           o_beq      <= 1'b0;
           o_bne      <= 1'b0;
           o_jump     <= 1'b0;
@@ -113,7 +113,7 @@ always @(i_instrCode) begin
   		  begin
       		o_regDst   <= 1'b0;
 		      o_regWrite <= 1'b1;
-      		o_aluSrc   <= 1'b1;
+      		o_aluSrc_op2   <= 1'b1;
       		o_beq      <= 1'b0;
 			    o_bne	     <= 1'b0;
       		o_jump	   <= 1'b0;
@@ -126,7 +126,7 @@ always @(i_instrCode) begin
 	      begin
       		o_regDst   <= 1'b0;
       		o_regWrite <= 1'b1;
-      		o_aluSrc   <= 1'b1;
+      		o_aluSrc_op2   <= 1'b1;
       		o_beq   <= 1'b0;
 			    o_bne	<= 1'b0;
       		o_jump	    <= 1'b0;
@@ -139,7 +139,7 @@ always @(i_instrCode) begin
 	      begin
       		o_regDst   <= 1'b0;
       		o_regWrite <= 1'b0;
-      		o_aluSrc   <= 1'b1;
+      		o_aluSrc_op2   <= 1'b1;
       		o_beq   <= 1'b0;
 			    o_bne	<= 1'b0;
       		o_jump	    <= 1'b0;
@@ -152,7 +152,7 @@ always @(i_instrCode) begin
 	     	begin
       		o_regDst   <= 1'bz;
       		o_regWrite <= 1'b0;
-      		o_aluSrc   <= 1'bz;
+      		o_aluSrc_op2   <= 1'bz;
 			    o_bne		<=1'b0;
       		o_beq   <= 1'b0;
       		o_jump	    <= 1'b1;
@@ -165,7 +165,7 @@ always @(i_instrCode) begin
       	begin
       		o_regDst   <= 1'bz;
       		o_regWrite <= 1'b0;
-      		o_aluSrc   <= 1'b0;
+      		o_aluSrc_op2   <= 1'b0;
 			    o_bne	<= 1'b0;
       		o_beq   <= 1'b1;
       		o_jump	    <= 1'b0;
@@ -178,7 +178,7 @@ always @(i_instrCode) begin
       	begin
       		o_regDst   <= 1'bz;
       		o_regWrite <= 1'b0;
-      		o_aluSrc   <= 1'b0;
+      		o_aluSrc_op2   <= 1'b0;
 			    o_bne	<= 1'b1;
       		o_beq   <= 1'b0;
       		o_jump	    <= 1'b0;
@@ -191,7 +191,7 @@ always @(i_instrCode) begin
         begin
           o_regDst   <= 1'b0;
           o_regWrite <= 1'b0;
-          o_aluSrc   <= 1'b0;
+          o_aluSrc_op2   <= 1'b0;
           o_bne      <= 1'b0;
           o_beq      <= 1'b0;
           o_jump     <= 1'b0;
