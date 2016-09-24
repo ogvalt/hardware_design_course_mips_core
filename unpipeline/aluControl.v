@@ -1,4 +1,4 @@
-module aluControl(i_aluOp, i_func, o_aluControl, o_ALUSrc_op1);
+module aluControl(i_aluOp, i_func, i_r_field, o_aluControl, o_ALUSrc_op1);
 
 localparam OP_RTYPE = 6'h0, OP_ADDI = 6'h8, OP_ADDIU = 6'h9;
 localparam OP_LUI = 6'b001111, OP_ORI = 6'b001101, OP_XORI = 6'b001110;
@@ -11,10 +11,12 @@ localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
 localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011, F_XOR = 6'b100110;
 localparam F_SLTU = 6'b101011, F_SLLV = 6'b000100, F_LUI = 6'b111100;
 localparam F_SRLV = 6'b000110, F_SRAV = 6'b000111, F_SLL = 6'b000000;
-localparam F_SRL = 6'b000010, F_SRA = 6'b000011;
+localparam F_SRL = 6'b000010, F_SRA = 6'b000011, F_JR = 6'b001000;
+localparam F_ROTR = 6'b111110, F_ROTRV = 6'b111111;
 
 input       [5:0]   i_aluOp;
 input       [5:0]   i_func;
+input               i_r_field;
 output  reg [5:0]   o_aluControl;
 output  reg         o_ALUSrc_op1;
 
@@ -33,12 +35,25 @@ always @(i_aluOp or i_func) begin
             F_ADD, F_ADDU, F_AND,
             F_OR, F_SUB, F_SLT,
             F_SLTU, F_NOR, F_SUBU, 
-            F_XOR, F_SLLV, F_SRLV,
-            F_SRAV: o_aluControl = i_func;
-            F_SLL, F_SRL, F_SRA:
+            F_XOR, F_SLLV, F_SRAV: 
               begin
-                    o_aluControl = i_func;
-                    o_ALUSrc_op1 = 1'b1;
+                o_aluControl = i_func;
+              end
+            F_SRLV:
+              begin
+                if(i_r_field) o_aluControl = F_ROTRV;
+                else          o_aluControl = i_func;
+              end
+            F_SLL, F_SRA:
+              begin
+                o_aluControl = i_func;
+                o_ALUSrc_op1 = 1'b1;
+              end 
+            F_SRL:
+              begin
+                if(i_r_field) o_aluControl = F_ROTR;
+                else          o_aluControl = i_func;
+                o_ALUSrc_op1 = 1'b1;
               end 
             // default: // predict unknown function wire
           endcase

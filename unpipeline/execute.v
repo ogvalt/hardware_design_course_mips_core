@@ -51,6 +51,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   aluControl ALUCONTROL(
                         .i_aluOp(i_ALUop), 
                         .i_func(i_imm[5:0]), 
+                        .i_r_field(i_imm[6]|i_imm[21]),
                         .o_aluControl(ALUCtrl),
                         .o_ALUSrc_op1(ALUSrc_op1)
                         );

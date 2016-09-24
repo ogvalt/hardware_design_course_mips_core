@@ -7,6 +7,7 @@ localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011, F_XOR = 6'b100110;
 localparam F_SLTU = 6'b101011, F_SLLV = 6'b000100, F_LUI = 6'b111100;
 localparam F_SRLV = 6'b000110, F_SRAV = 6'b000111, F_SLL = 6'b000000;
 localparam F_SRL = 6'b000010, F_SRA = 6'b000011;
+localparam F_ROTR = 6'b111110, F_ROTRV = 6'b111111;
 
 input       [31:0]  i_op1, i_op2;
 input       [5:0]   i_control;
@@ -42,6 +43,8 @@ always @(i_control, i_op1, i_op2) begin
     F_SRL:   o_result = i_op2 >> i_op1;
    F_SRAV,
     F_SRA:   o_result = i_op2 >>> i_op1;
+   F_ROTR,   
+  F_ROTRV:   o_result = i_op2 << (32-i_op1[4:0]) | i_op2 >> i_op1[4:0];
   default: o_result = 32'b0;
   endcase
 end  
