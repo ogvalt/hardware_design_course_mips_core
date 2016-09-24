@@ -33,172 +33,172 @@ always @(i_instrCode) begin
     case(i_instrCode)
       OP_RTYPE: 
         begin
-          o_regDst   <= 1'b1;
-		      o_regWrite <= 1'b1;
-      		o_aluSrc_op2   <= 1'b0;
-      		o_beq   	 <= 1'b0;
-			    o_bne		   <= 1'b0;
-      		o_jump	   <= 1'b0;
-      		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b0;
+          o_regDst       = 1'b1;
+		      o_regWrite     = 1'b1;
+      		o_aluSrc_op2   = 1'b0;
+      		o_beq   	     = 1'b0;
+			    o_bne		       = 1'b0;
+      		o_jump	       = 1'b0;
+      		o_memWrite     = 1'b0;
+      		o_memToReg     = 1'b0;
+          o_aluOp        = i_instrCode;
+      		o_extOp        = 1'b0;
       	end
       OP_ADDI:
       	begin
-      		o_regDst   <= 1'b0;
-		      o_regWrite <= 1'b1;
-      		o_aluSrc_op2   <= 1'b1;
-      		o_beq      <= 1'b0;
-			    o_bne	     <= 1'b0;
-      		o_jump	    <= 1'b0;
-      		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b1;
+      		o_regDst      = 1'b0;
+		      o_regWrite    = 1'b1;
+      		o_aluSrc_op2  = 1'b1;
+      		o_beq         = 1'b0;
+			    o_bne	        = 1'b0;
+      		o_jump	      = 1'b0;
+      		o_memWrite    = 1'b0;
+      		o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+      		o_extOp       = 1'b1;
       	end
       OP_LUI:
         begin
-          o_regDst   <= 1'b0;
-          o_regWrite <= 1'b1;
-          o_aluSrc_op2   <= 1'b1;
-          o_beq      <= 1'b0;
-          o_bne      <= 1'b0;
-          o_jump     <= 1'b0;
-          o_memWrite <= 1'b0;
-          o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-          o_extOp    <= 1'b0; 
+          o_regDst      = 1'b0;
+          o_regWrite    = 1'b1;
+          o_aluSrc_op2  = 1'b1;
+          o_beq         = 1'b0;
+          o_bne         = 1'b0;
+          o_jump        = 1'b0;
+          o_memWrite    = 1'b0;
+          o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+          o_extOp       = 1'b0; 
         end
       OP_ORI:
         begin
-          o_regDst   <= 1'b0;
-          o_regWrite <= 1'b1;
-          o_aluSrc_op2   <= 1'b1;
-          o_beq      <= 1'b0;
-          o_bne      <= 1'b0;
-          o_jump     <= 1'b0;
-          o_memWrite <= 1'b0;
-          o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-          o_extOp    <= 1'b0; 
+          o_regDst      = 1'b0;
+          o_regWrite    = 1'b1;
+          o_aluSrc_op2  = 1'b1;
+          o_beq         = 1'b0;
+          o_bne         = 1'b0;
+          o_jump        = 1'b0;
+          o_memWrite    = 1'b0;
+          o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+          o_extOp       = 1'b0; 
         end
       OP_XORI:
         begin
-          o_regDst   <= 1'b0;
-          o_regWrite <= 1'b1;
-          o_aluSrc_op2   <= 1'b1;
-          o_beq      <= 1'b0;
-          o_bne      <= 1'b0;
-          o_jump     <= 1'b0;
-          o_memWrite <= 1'b0;
-          o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-          o_extOp    <= 1'b0; 
+          o_regDst      = 1'b0;
+          o_regWrite    = 1'b1;
+          o_aluSrc_op2  = 1'b1;
+          o_beq         = 1'b0;
+          o_bne         = 1'b0;
+          o_jump        = 1'b0;
+          o_memWrite    = 1'b0;
+          o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+          o_extOp       = 1'b0; 
         end
       OP_ANDI:
         begin
-          o_regDst   <= 1'b0;
-          o_regWrite <= 1'b1;
-          o_aluSrc_op2   <= 1'b1;
-          o_beq      <= 1'b0;
-          o_bne      <= 1'b0;
-          o_jump     <= 1'b0;
-          o_memWrite <= 1'b0;
-          o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-          o_extOp    <= 1'b0; 
+          o_regDst      = 1'b0;
+          o_regWrite    = 1'b1;
+          o_aluSrc_op2  = 1'b1;
+          o_beq         = 1'b0;
+          o_bne         = 1'b0;
+          o_jump        = 1'b0;
+          o_memWrite    = 1'b0;
+          o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+          o_extOp       = 1'b0; 
         end
   		OP_ADDIU:
   		  begin
-      		o_regDst   <= 1'b0;
-		      o_regWrite <= 1'b1;
-      		o_aluSrc_op2   <= 1'b1;
-      		o_beq      <= 1'b0;
-			    o_bne	     <= 1'b0;
-      		o_jump	   <= 1'b0;
-      		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b1;
+      		o_regDst      = 1'b0;
+		      o_regWrite    = 1'b1;
+      		o_aluSrc_op2  = 1'b1;
+      		o_beq         = 1'b0;
+			    o_bne	        = 1'b0;
+      		o_jump	      = 1'b0;
+      		o_memWrite    = 1'b0;
+      		o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+      		o_extOp       = 1'b1;
       	end
   	  OP_LW:
 	      begin
-      		o_regDst   <= 1'b0;
-      		o_regWrite <= 1'b1;
-      		o_aluSrc_op2   <= 1'b1;
-      		o_beq   <= 1'b0;
-			    o_bne	<= 1'b0;
-      		o_jump	    <= 1'b0;
-      		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'b1;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b1;
+      		o_regDst      = 1'b0;
+      		o_regWrite    = 1'b1;
+      		o_aluSrc_op2  = 1'b1;
+      		o_beq         = 1'b0;
+			    o_bne	        = 1'b0;
+      		o_jump	      = 1'b0;
+      		o_memWrite    = 1'b0;
+      		o_memToReg    = 1'b1;
+          o_aluOp       = i_instrCode;
+      		o_extOp       = 1'b1;
       	end
   	  OP_SW:
 	      begin
-      		o_regDst   <= 1'b0;
-      		o_regWrite <= 1'b0;
-      		o_aluSrc_op2   <= 1'b1;
-      		o_beq   <= 1'b0;
-			    o_bne	<= 1'b0;
-      		o_jump	    <= 1'b0;
-      		o_memWrite <= 1'b1;
-      		o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b1;
+      		o_regDst      = 1'b0;
+      		o_regWrite    = 1'b0;
+      		o_aluSrc_op2  = 1'b1;
+      		o_beq         = 1'b0;
+			    o_bne	        = 1'b0;
+      		o_jump	      = 1'b0;
+      		o_memWrite    = 1'b1;
+      		o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+      		o_extOp       = 1'b1;
       	end
   	  OP_J:
 	     	begin
-      		o_regDst   <= 1'bz;
-      		o_regWrite <= 1'b0;
-      		o_aluSrc_op2   <= 1'bz;
-			    o_bne		<=1'b0;
-      		o_beq   <= 1'b0;
-      		o_jump	    <= 1'b1;
-      		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b0;
+      		o_regDst      = 1'bz;
+      		o_regWrite    = 1'b0;
+      		o_aluSrc_op2  = 1'bz;
+			    o_bne		      = 1'b0;
+      		o_beq         = 1'b0;
+      		o_jump	      = 1'b1;
+      		o_memWrite    = 1'b0;
+      		o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+      		o_extOp       = 1'b0;
       	end
   	  OP_BEQ:
       	begin
-      		o_regDst   <= 1'bz;
-      		o_regWrite <= 1'b0;
-      		o_aluSrc_op2   <= 1'b0;
-			    o_bne	<= 1'b0;
-      		o_beq   <= 1'b1;
-      		o_jump	    <= 1'b0;
-      		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'bz;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b0;
+      		o_regDst      = 1'bz;
+      		o_regWrite    = 1'b0;
+      		o_aluSrc_op2  = 1'b0;
+			    o_bne	        = 1'b0;
+      		o_beq         = 1'b1;
+      		o_jump	      = 1'b0;
+      		o_memWrite    = 1'b0;
+      		o_memToReg    = 1'bz;
+          o_aluOp       = i_instrCode;
+      		o_extOp       = 1'b0;
       	end
       OP_BNE:
       	begin
-      		o_regDst   <= 1'bz;
-      		o_regWrite <= 1'b0;
-      		o_aluSrc_op2   <= 1'b0;
-			    o_bne	<= 1'b1;
-      		o_beq   <= 1'b0;
-      		o_jump	    <= 1'b0;
-      		o_memWrite <= 1'b0;
-      		o_memToReg <= 1'bz;
-          o_aluOp    <= i_instrCode;
-      		o_extOp    <= 1'b0;
+      		o_regDst      = 1'bz;
+      		o_regWrite    = 1'b0;
+      		o_aluSrc_op2  = 1'b0;
+			    o_bne	        = 1'b1;
+      		o_beq         = 1'b0;
+      		o_jump	      = 1'b0;
+      		o_memWrite    = 1'b0;
+      		o_memToReg    = 1'bz;
+          o_aluOp       = i_instrCode;
+      		o_extOp       = 1'b0;
       	end
       default:
         begin
-          o_regDst   <= 1'b0;
-          o_regWrite <= 1'b0;
-          o_aluSrc_op2   <= 1'b0;
-          o_bne      <= 1'b0;
-          o_beq      <= 1'b0;
-          o_jump     <= 1'b0;
-          o_memWrite <= 1'b0;
-          o_memToReg <= 1'b0;
-          o_aluOp    <= i_instrCode;
-          o_extOp    <= 1'b0;
+          o_regDst      = 1'b0;
+          o_regWrite    = 1'b0;
+          o_aluSrc_op2  = 1'b0;
+          o_bne         = 1'b0;
+          o_beq         = 1'b0;
+          o_jump        = 1'b0;
+          o_memWrite    = 1'b0;
+          o_memToReg    = 1'b0;
+          o_aluOp       = i_instrCode;
+          o_extOp       = 1'b0;
         end
 
   	endcase

@@ -11,6 +11,7 @@ localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
 localparam F_ADDU = 6'b100001, F_SUBU = 6'b100011, F_XOR = 6'b100110;
 localparam F_SLTU = 6'b101011, F_SLLV = 6'b000100, F_LUI = 6'b111100;
 localparam F_SRLV = 6'b000110, F_SRAV = 6'b000111, F_SLL = 6'b000000;
+localparam F_SRL = 6'b000010, F_SRA = 6'b000011;
 
 input       [5:0]   i_aluOp;
 input       [5:0]   i_func;
@@ -18,14 +19,14 @@ output  reg [5:0]   o_aluControl;
 output  reg         o_ALUSrc_op1;
 
 always @(i_aluOp or i_func) begin
-  o_ALUSrc_op1 <= 1'b0;
+  o_ALUSrc_op1 = 1'b0;
   case(i_aluOp)
       OP_ADDI,
       OP_ADDIU,
       OP_LW,
-      OP_SW:        o_aluControl <= F_ADD;
+      OP_SW:        o_aluControl = F_ADD;
       OP_BEQ,
-      OP_BNE :      o_aluControl <= F_SUB;
+      OP_BNE :      o_aluControl = F_SUB;
       OP_RTYPE: 
         begin
           case(i_func)
@@ -33,21 +34,21 @@ always @(i_aluOp or i_func) begin
             F_OR, F_SUB, F_SLT,
             F_SLTU, F_NOR, F_SUBU, 
             F_XOR, F_SLLV, F_SRLV,
-            F_SRAV: o_aluControl <= i_func;
-            F_SLL:
+            F_SRAV: o_aluControl = i_func;
+            F_SLL, F_SRL, F_SRA:
               begin
-                    o_aluControl <= i_func;
-                    o_ALUSrc_op1 <= 1'b1;
+                    o_aluControl = i_func;
+                    o_ALUSrc_op1 = 1'b1;
               end 
             // default: // predict unknown function wire
           endcase
           
         end
-      OP_LUI:       o_aluControl <= F_LUI;
-      OP_ORI:       o_aluControl <= F_OR;
-      OP_XORI:      o_aluControl <= F_XOR;
-      OP_ANDI:      o_aluControl <= F_AND;
-      default:      o_aluControl <= 0;
+      OP_LUI:       o_aluControl = F_LUI;
+      OP_ORI:       o_aluControl = F_OR;
+      OP_XORI:      o_aluControl = F_XOR;
+      OP_ANDI:      o_aluControl = F_AND;
+      default:      o_aluControl = 0;
   endcase
 end
 endmodule
