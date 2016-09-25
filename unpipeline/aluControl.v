@@ -1,4 +1,4 @@
-module aluControl(i_aluOp, i_func, i_r_field, o_aluControl, o_ALUSrc_op1);
+module aluControl(i_aluOp, i_func, i_r_field, o_aluControl, o_ALUSrc_op1, o_jr);
 
 localparam OP_RTYPE = 6'h0, OP_ADDI = 6'h8, OP_ADDIU = 6'h9;
 localparam OP_LUI = 6'b001111, OP_ORI = 6'b001101, OP_XORI = 6'b001110;
@@ -19,9 +19,11 @@ input       [5:0]   i_func;
 input               i_r_field;
 output  reg [5:0]   o_aluControl;
 output  reg         o_ALUSrc_op1;
+output  reg         o_jr;
 
 always @(i_aluOp or i_func) begin
   o_ALUSrc_op1 = 1'b0;
+  o_jr         = 1'b0;
   case(i_aluOp)
       OP_ADDI,
       OP_ADDIU,
@@ -55,6 +57,11 @@ always @(i_aluOp or i_func) begin
                 else          o_aluControl = i_func;
                 o_ALUSrc_op1 = 1'b1;
               end 
+            F_JR:
+              begin
+                o_jr = 1'b1;
+                o_aluControl = i_func;
+              end
             // default: // predict unknown function wire
           endcase
           

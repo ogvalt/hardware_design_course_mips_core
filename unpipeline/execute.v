@@ -22,6 +22,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   wire        [31:0] aluOp1; // first alu operand
   wire        [31:0] aluOp2; //second alu operand
   wire        [ 5:0] ALUCtrl; //aclu control code
+  wire               jr;
   
   signExtend EXTENDER( .i_data    (i_imm[15:0]), 
                        .i_control (i_extOp), 
@@ -53,7 +54,8 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                         .i_func(i_imm[5:0]), 
                         .i_r_field(i_imm[6]|i_imm[21]),
                         .o_aluControl(ALUCtrl),
-                        .o_ALUSrc_op1(ALUSrc_op1)
+                        .o_ALUSrc_op1(ALUSrc_op1),
+                        .o_jr(jr)
                         );
   nextPC NEXTPC (
                   .i_pc(i_pc), 
@@ -61,7 +63,9 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                   .i_jump(i_jump), 
                   .i_beq(i_beq), 
                   .i_bne(i_bne), 
-                  .i_zerof(zerof), 
+                  .i_zerof(zerof),
+                  .i_jr(jr), 
+                  .i_Rs(aluOp1), 
                   .o_nextpc(o_nextPC), 
                   .o_pcsrc(o_pcsrc)
                 ); 
