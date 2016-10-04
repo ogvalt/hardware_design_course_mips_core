@@ -1,7 +1,8 @@
 module execute(i_pc, i_imm, i_op1, i_op2,
                i_ALUSrc_op2, i_ALUop, i_jump, i_extOp,
                i_beq, i_bne, o_op2, 
-               o_ALUres, o_nextPC, o_pcsrc);
+               o_ALUres, o_nextPC, o_pcsrc,
+               o_nop);
   
   input  [31:0] i_pc; //address from pc
   input  [25:0] i_imm; //immidiate constant input
@@ -15,6 +16,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   output [31:0] o_ALUres;
   output [31:0] o_nextPC;
   output        o_pcsrc;
+  output        o_nop;
   
   wire               zerof; // zero flag - alures=0
   wire               ALUSrc_op1;
@@ -22,7 +24,8 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   wire        [31:0] aluOp1; // first alu operand
   wire        [31:0] aluOp2; //second alu operand
   wire        [ 5:0] ALUCtrl; //aclu control code
-  wire               jr;
+  wire               jr;      // for JR command purpose
+  wire               nop;     // for NOP command purpose
   
   signExtend EXTENDER( .i_data    (i_imm[15:0]), 
                        .i_control (i_extOp), 
@@ -55,7 +58,8 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                         .i_r_field(i_imm[6]|i_imm[21]),
                         .o_aluControl(ALUCtrl),
                         .o_ALUSrc_op1(ALUSrc_op1),
-                        .o_jr(jr)
+                        .o_jr(jr),
+                        .o_nop(nop)
                         );
   nextPC NEXTPC (
                   .i_pc(i_pc), 
@@ -70,5 +74,6 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                   .o_pcsrc(o_pcsrc)
                 ); 
   assign o_op2 = i_op2;
+  assign o_nop = nop;
 
 endmodule

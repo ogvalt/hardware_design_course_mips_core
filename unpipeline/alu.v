@@ -31,7 +31,13 @@ always @(i_control, i_op1, i_op2) begin
         o_overflow  = result[32];
       end
    F_ADDU:   o_result = i_op1+i_op2;
-    F_SUB:   o_result = i_op1-i_op2;
+    F_SUB:   
+      begin
+        result      = i_op1-i_op2;
+        o_result    = result[31:0];
+        o_overflow  = result[32];
+      end
+   F_SUBU:   o_result = i_op1-i_op2;
     F_SLT:   o_result = $signed(i_op1)<$signed(i_op2) ? 1 : 0;
    F_SLTU:   o_result = i_op1<i_op2 ? 1 : 0;
     F_NOR:   o_result =~(i_op1|i_op2);

@@ -28,6 +28,7 @@ module mips();
   wire        jump; //control
   wire        beq; //control
   wire		    bne; // control
+  wire        nop; // for NOP command purpose
   
   fetch FETCH(  .i_clk(i_clk), 
                 .i_rst_n(i_rst_n), 
@@ -40,7 +41,7 @@ module mips();
   decode DECODE(.i_clk(i_clk), 
                 .i_rst_n(i_rst_n), 
                 .i_c_regDst(regDst), 
-                .i_c_regWrite(regWrite), 
+                .i_c_regWrite(regWrite & !nop), 
                 .i_Rs(o_instr[25:21]), 
                 .i_Rt(o_instr[20:16]), 
                 .i_Rd(o_instr[15:11]), 
@@ -64,7 +65,8 @@ module mips();
                     .o_op2(o_op2), 
                     .o_ALUres(o_ALUResult), 
                     .o_nextPC(o_nextpc), 
-                    .o_pcsrc(o_pcsrc)
+                    .o_pcsrc(o_pcsrc),
+                    .o_nop(nop)
                   );
   
   memory MEMORY(  .i_clk(i_clk), 

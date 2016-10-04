@@ -19,7 +19,7 @@ module nextPC(i_pc, i_imm, i_jump, i_beq, i_bne, i_zerof, i_jr, i_Rs, o_nextpc, 
   assign imm_concat = i_jr ? i_Rs : {i_pc[31:28],i_imm[25:0],2'b0};
   assign o_pcsrc = i_jump | (i_zerof&i_beq) | (~i_zerof&i_bne) | i_jr;
   
-  signExtend EXT(i_imm[15:0], 1, extend);
+  signExtend EXT(i_imm[15:0], 1'b1, extend);
   adder ADD(i_pc, extend, add_out); 
   mux2in1 MUX(add_out, imm_concat, i_jump | i_jr, o_nextpc);
   
