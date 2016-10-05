@@ -1,4 +1,8 @@
-module nextPC(i_pc, i_imm, i_jump, i_beq, i_bne, i_zerof, i_jr, i_Rs, o_nextpc, o_pcsrc);
+module nextPC(  i_pc, i_imm, i_jump, 
+                i_beq, i_bne, i_zerof, 
+                i_jr, i_Rs, i_eret,
+                i_exception,
+                o_nextpc, o_pcsrc);
 
   input   [31:0]  i_pc;
   input   [25:0]  i_imm;
@@ -8,8 +12,11 @@ module nextPC(i_pc, i_imm, i_jump, i_beq, i_bne, i_zerof, i_jr, i_Rs, o_nextpc, 
   input           i_zerof;
   input           i_jr;
   input   [31:0]  i_Rs;
-  output  [31:0]  o_nextpc;
-  output          o_pcsrc;
+  input           i_eret;
+  input           i_exception;
+
+  output      [31:0]  o_nextpc;
+  output  reg [ 1:0]  o_pcsrc;
 
   wire    [31:0]  add_out;
   wire    [31:0]  imm_concat;
@@ -17,7 +24,28 @@ module nextPC(i_pc, i_imm, i_jump, i_beq, i_bne, i_zerof, i_jr, i_Rs, o_nextpc, 
   wire    [31:0]  o_shift;
   
   assign imm_concat = i_jr ? i_Rs : {i_pc[31:28],i_imm[25:0],2'b0};
-  assign o_pcsrc = i_jump | (i_zerof&i_beq) | (~i_zerof&i_bne) | i_jr;
+  // assign o_pcsrc = i_jump | (i_zerof&i_beq) | (~i_zerof&i_bne) | i_jr;
+
+  always @(*) begin 
+    case(1'b1)
+      i_eret:
+        begin
+          o_pcsrc = 2'b10;
+        end
+      i_exception:
+        begin
+          o_pcsrc = 2'b11;
+        end
+      i_jump | (i_zerof&i_beq) | (~i_zerof&i_bne) | i_jr:
+        begin
+          o_pcsrc = 2'b01;
+        end
+      default: 
+        begin
+          o_pcsrc = 2'b00;
+        end
+      endcase 
+  end
   
   signExtend EXT(i_imm[15:0], 1'b1, extend);
   adder ADD(i_pc, extend, add_out); 

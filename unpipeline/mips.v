@@ -29,11 +29,20 @@ module mips();
   wire        beq; //control
   wire		    bne; // control
   wire        nop; // for NOP command purpose
+  wire        unknown_command; // unknown command in datapath signal
+  wire        unknown_func; // unknown func of R-type command in datapath
+  wire        arithmetic_overflow; // arithmetic overflow signal
+  reg         external_interrupt; //external interrupt signal
+  wire        eret;
+  wire [31:0] epc_to_pc;
+  wire [31:0] handler_address;
   
   fetch FETCH(  .i_clk(i_clk), 
                 .i_rst_n(i_rst_n), 
                 .i_execute(o_nextpc), 
-                .i_pcsrc(o_pcsrc), 
+                .i_pcsrc(o_pcsrc),
+                .i_epc_to_pc(epc_to_pc), 
+                .i_error_handler(handler_address), 
                 .o_fetch_pc(o_pc), 
                 .o_fetch_instr(o_instr)
               );
@@ -66,7 +75,9 @@ module mips();
                     .o_ALUres(o_ALUResult), 
                     .o_nextPC(o_nextpc), 
                     .o_pcsrc(o_pcsrc),
-                    .o_nop(nop)
+                    .o_nop(nop),
+                    .o_unknown_func(unknown_func),
+                    .o_arithmetic_overflow(arithmetic_overflow)
                   );
   
   memory MEMORY(  .i_clk(i_clk), 
@@ -87,10 +98,30 @@ module mips();
                     .o_memWrite(memWrite), 
                     .o_aluSrc_op2(ALUSrc_op2), 
                     .o_regWrite(regWrite),
-                    .o_extOp(extOp)
+                    .o_extOp(extOp),
+                    .o_unknown_command(unknown_command),
+                    .o_eret(eret)
                   );
-  
+  cop0 COPROCESSOR0(  
+                    .i_clk(i_clk), 
+                    .i_rst_n(i_rst_n),
+                    .i_arithmetic_overflow(arithmetic_overflow),
+                    .i_unknown_command(unknown_command),
+                    .i_unknown_func(unknown_func),
+                    .i_external_interrupt(external_interrupt),
+                    .i_data(),
+                    .i_address(),
+                    .i_pc_to_epc(o_pc),
+                    .i_mtc0(),
+                    .i_eret(eret),
+                    .o_epc_to_pc(epc_to_pc),
+                    .o_exeption(),
+                    .o_handler_address(handler_address),
+                    .o_data()
+                  );
+
   initial begin //clock set up
+    external_interrupt = 1'b0;
     i_clk <= 1'b0;
     #1;
     forever #1 i_clk <= ~i_clk;

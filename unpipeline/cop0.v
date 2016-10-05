@@ -34,6 +34,7 @@ input 		[4:0]		i_address;
 output 	reg	[31:0]		o_epc_to_pc;
 output 	reg				o_exeption;
 output 	reg [31:0]		o_handler_address;
+output 	reg [31:0]		o_data;
 
 reg	 		[31:0]		epc, cause, status;
 reg 					interrupt_processing; 
@@ -64,7 +65,7 @@ always @(posedge i_clk or negedge i_rst_n) begin
 			status <= i_data;
 		if(i_mtc0 & i_address == CAUSE_ADDR) 
 			cause  	<= i_data;
-		end else begin
+		else begin
 			if(epc_we)
 				cause 	<= { 29'b0, i_arithmetic_overflow, 
 				i_unknown_func | i_unknown_command, i_external_interrupt };
