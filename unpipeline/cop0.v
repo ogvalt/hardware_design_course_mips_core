@@ -16,7 +16,7 @@ module cop0 (	i_clk,
 				o_data
 				);
 
-parameter 		STATUS_ADDR = 1, CAUSE_ADDR = 2, EPC_ADDR = 3;
+parameter 		STATUS_ADDR = 12, CAUSE_ADDR = 13, EPC_ADDR = 14;
 
 input 					i_clk, 
 						i_rst_n;

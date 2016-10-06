@@ -98,4 +98,5 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   assign o_eret = eret;
   assign o_mfc0 = mfc0; 
   assign o_mtc0 = mtc0;
+  
 endmodule
