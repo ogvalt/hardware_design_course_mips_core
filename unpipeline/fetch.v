@@ -22,12 +22,6 @@ module fetch( i_clk, i_rst_n,
            .o_pc    (o_fetch_pc)
           );
 
-  // mux2in1 PCSOURCE ( .i_dat0    (o_fetch_pc), 
-  //                    .i_dat1    (i_execute), 
-  //                    .i_control (i_pcsrc), 
-  //                    .o_dat     (i_pc)
-  //                   );// mux source of addr of pc
-
   rom ROM   ( .i_addr(o_fetch_pc), 
               .o_data(o_fetch_instr)
             );

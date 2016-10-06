@@ -24,9 +24,8 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   wire   [31:0] wr_source_select;
 
   assign  wr_source_select = (i_mfc0) ? i_cop0_data : i_wrDataToReg;
-  
-  regFile REGISTERS(.i_clk    (i_clk), 
-                      .i_rst_n  (i_rst_n),
+
+  regFile REGISTERS(  .i_clk    (i_clk), 
                       .i_raddr1 (i_Rs), 
                       .i_raddr2 (i_Rt), 
                       .i_waddr  (o_wrAddr),
