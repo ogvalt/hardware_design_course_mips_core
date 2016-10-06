@@ -98,7 +98,7 @@ always @(i_aluOp or i_func) begin
       OP_COP0:      
         begin
           case(i_r_field)
-            5'b1xxxx:
+            5'b10000:
               begin : ERET_COMMAND
                 if(i_func == 6'b011000) begin
                   o_eret = 1'b1;

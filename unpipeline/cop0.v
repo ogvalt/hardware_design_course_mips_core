@@ -94,7 +94,7 @@ always @(*) begin
 
 	o_epc_to_pc 		= epc;
 	o_exeption 			= epc_we;
-	o_handler_address 	= 32'h10;
+	o_handler_address 	= 32'h5;
 end
 
 endmodule
