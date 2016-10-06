@@ -59,7 +59,7 @@ end
 always @(posedge i_clk or negedge i_rst_n) begin 
 	if(~i_rst_n) begin
 		cause	<= 0;
-		status	<= 0;
+		status	<= 32'b0001_0000_0001;
 	end else begin
 		if(i_mtc0 & i_address == STATUS_ADDR) 
 			status <= i_data;

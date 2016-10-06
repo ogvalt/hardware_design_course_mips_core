@@ -5,7 +5,7 @@ module mips();
   wire [31:0] o_pc;
   wire [31:0] i_pc;
   wire [31:0] o_nextpc; //out of Next PC with new addr 
-  wire        o_pcsrc; //out pc source control
+  wire [ 1:0] o_pcsrc; //out pc source control
   wire [31:0] o_instr;
   wire [31:0] o_writeToReg; // register file write data
   wire        regWrite; //control
@@ -76,6 +76,7 @@ module mips();
                     .i_extOp(extOp),
                     .i_beq(beq), 
                     .i_bne(bne), 
+                    .i_exception(exception),
                     .o_op2(o_op2), 
                     .o_ALUres(o_ALUResult), 
                     .o_nextPC(o_nextpc), 

@@ -1,7 +1,7 @@
 module execute(i_pc, i_imm, i_op1, i_op2,
                i_ALUSrc_op2, i_ALUop, i_jump, i_extOp,
-               i_beq, i_bne, o_op2, 
-               o_ALUres, o_nextPC, o_pcsrc,
+               i_beq, i_bne, i_exception,
+               o_op2, o_ALUres, o_nextPC, o_pcsrc,
                o_nop, o_unknown_func, o_arithmetic_overflow,
                o_eret, o_mfc0, o_mtc0
                );
@@ -13,7 +13,8 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   input  [ 5:0] i_ALUop;
   input         i_jump, i_beq, i_bne; //condition control
   input         i_extOp; // extender control
-  
+  input         i_exception; //
+
   output [31:0] o_op2;
   output [31:0] o_ALUres;
   output [31:0] o_nextPC;
@@ -85,15 +86,16 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                   .i_jr(jr), 
                   .i_Rs(aluOp1),
                   .i_eret(eret),
-                  .i_exception(), 
+                  .i_exception(i_exception), 
                   .o_nextpc(o_nextPC), 
                   .o_pcsrc(o_pcsrc)
                 ); 
+
   assign o_op2 = i_op2;
   assign o_nop = nop;
   assign o_unknown_func = unknown_func;
   assign o_arithmetic_overflow = arithmetic_overflow;
   assign o_eret = eret;
-  assign o_mfc0 = mtc0; 
-  assign o_mtc0 = mfc0;
+  assign o_mfc0 = mfc0; 
+  assign o_mtc0 = mtc0;
 endmodule
