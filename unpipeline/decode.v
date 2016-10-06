@@ -1,5 +1,6 @@
 module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite, 
                i_Rs, i_Rt, i_Rd, i_wrDataToReg, i_wrAddr,
+               i_mfc0, i_cop0_data,
                o_decode_op1, o_decode_op2,o_wrAddr);
   
   input         i_clk, i_rst_n;
@@ -8,6 +9,9 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   input  [4:0]  i_Rs;
   input  [4:0]  i_Rt; 
   input  [4:0]  i_Rd; //addr of reg in regFile
+
+  input         i_mfc0;
+  input  [31:0] i_cop0_data;
   
   input  [31:0] i_wrDataToReg; //data that need to be wrote into regFile
   input  [4:0]  i_wrAddr; //input of write address
@@ -17,12 +21,16 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   
   output [4:0]  o_wrAddr; //output of write address (need for corect pipelining)
     
+  wire   [31:0] wr_source_select;
+
+  assign  wr_source_select = (i_mfc0) ? i_cop0_data : i_wrDataToReg;
+  
   regFile REGISTERS(.i_clk    (i_clk), 
                       .i_rst_n  (i_rst_n),
                       .i_raddr1 (i_Rs), 
                       .i_raddr2 (i_Rt), 
                       .i_waddr  (o_wrAddr),
-                      .i_wdata  (i_wrDataToReg), 
+                      .i_wdata  (wr_source_select), 
                       .i_we     (i_c_regWrite), 
                       .o_rdata1 (o_decode_op1),
                       .o_rdata2 (o_decode_op2)

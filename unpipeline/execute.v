@@ -3,7 +3,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                i_beq, i_bne, o_op2, 
                o_ALUres, o_nextPC, o_pcsrc,
                o_nop, o_unknown_func, o_arithmetic_overflow,
-               o_eret
+               o_eret, o_mfc0, o_mtc0
                );
   
   input  [31:0] i_pc; //address from pc
@@ -22,6 +22,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   output        o_unknown_func;
   output        o_arithmetic_overflow;
   output        o_eret;
+  output        o_mfc0, o_mtc0;
   
   wire               zerof; // zero flag - alures=0
   wire               ALUSrc_op1;
@@ -34,6 +35,7 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   wire               unknown_func; // signal for unknown function of R-type instruction
   wire               arithmetic_overflow; //
   wire               eret;
+  wire               mfc0, mtc0;
   
   signExtend EXTENDER( .i_data    (i_imm[15:0]), 
                        .i_control (i_extOp), 
@@ -69,7 +71,9 @@ module execute(i_pc, i_imm, i_op1, i_op2,
                         .o_jr(jr),
                         .o_nop(nop),
                         .o_unknown_func(unknown_func),
-                        .o_eret(eret)
+                        .o_eret(eret),
+                        .o_mfc0(mfc0), 
+                        .o_mtc0(mtc0)
                         );
   nextPC NEXTPC (
                   .i_pc(i_pc), 
@@ -90,4 +94,6 @@ module execute(i_pc, i_imm, i_op1, i_op2,
   assign o_unknown_func = unknown_func;
   assign o_arithmetic_overflow = arithmetic_overflow;
   assign o_eret = eret;
+  assign o_mfc0 = mtc0; 
+  assign o_mtc0 = mfc0;
 endmodule

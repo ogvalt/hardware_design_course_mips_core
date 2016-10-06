@@ -1,6 +1,6 @@
 module aluControl ( i_aluOp, i_func, i_r_field, 
                     o_aluControl, o_ALUSrc_op1, o_jr, 
-                    o_nop, o_unknown_func, o_eret
+                    o_nop, o_unknown_func, o_eret, o_mfc0, o_mtc0
                   );
 
 localparam OP_RTYPE = 6'h0, OP_ADDI = 6'h8, OP_ADDIU = 6'h9;
@@ -29,6 +29,7 @@ output  reg         o_jr;
 output  reg         o_nop;
 output  reg         o_unknown_func;
 output  reg         o_eret;
+output  reg         o_mfc0, o_mtc0;
 
 always @(i_aluOp or i_func) begin
   o_ALUSrc_op1    = 1'b0;
@@ -36,6 +37,8 @@ always @(i_aluOp or i_func) begin
   o_nop           = 1'b0;
   o_unknown_func  = 1'b0;
   o_eret          = 1'b0;
+  o_mfc0          = 1'b0;
+  o_mtc0          = 1'b0;
 
   case(i_aluOp)
       OP_ADDI,
@@ -105,11 +108,11 @@ always @(i_aluOp or i_func) begin
               end 
             5'b00000:
               begin : MFC0_COMMAND
-
+                o_mfc0 = 1'b1;
               end
             5'b00100:
               begin : MTC0_COMMAND
-
+                o_mtc0 = 1'b1;
               end
           endcase // i_r_field
           o_aluControl = 0;

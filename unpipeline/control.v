@@ -110,6 +110,7 @@ always @(i_instrCode) begin
       	end
       OP_COP0:
         begin
+          o_regWrite    = 1'b1;
         end
       default:
         begin

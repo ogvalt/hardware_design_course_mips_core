@@ -36,6 +36,9 @@ module mips();
   wire        eret;
   wire [31:0] epc_to_pc;
   wire [31:0] handler_address;
+  wire        mtc0, mfc0;
+  wire [31:0] cop0_data;
+  wire        exception;
   
   fetch FETCH(  .i_clk(i_clk), 
                 .i_rst_n(i_rst_n), 
@@ -50,12 +53,14 @@ module mips();
   decode DECODE(.i_clk(i_clk), 
                 .i_rst_n(i_rst_n), 
                 .i_c_regDst(regDst), 
-                .i_c_regWrite(regWrite & !nop), 
+                .i_c_regWrite(regWrite & !nop & !exception), 
                 .i_Rs(o_instr[25:21]), 
                 .i_Rt(o_instr[20:16]), 
                 .i_Rd(o_instr[15:11]), 
                 .i_wrDataToReg(o_writeToReg), 
                 .i_wrAddr(o_regDest),
+                .i_mfc0(mfc0), 
+                .i_cop0_data(cop0_data),
                 .o_decode_op1(o_bus_A), 
                 .o_decode_op2(o_bus_B), 
                 .o_wrAddr(o_regDest)
@@ -77,13 +82,16 @@ module mips();
                     .o_pcsrc(o_pcsrc),
                     .o_nop(nop),
                     .o_unknown_func(unknown_func),
-                    .o_arithmetic_overflow(arithmetic_overflow)
+                    .o_arithmetic_overflow(arithmetic_overflow),
+                    .o_eret(eret),
+                    .o_mfc0(mfc0), 
+                    .o_mtc0(mtc0)
                   );
   
   memory MEMORY(  .i_clk(i_clk), 
                   .i_alu(o_ALUResult), 
                   .i_data(o_op2), 
-                  .i_memWrite(memWrite), 
+                  .i_memWrite(memWrite & !exception), 
                   .i_memToReg(memToReg), 
                   .o_data(o_writeToReg)
                 );
@@ -99,8 +107,7 @@ module mips();
                     .o_aluSrc_op2(ALUSrc_op2), 
                     .o_regWrite(regWrite),
                     .o_extOp(extOp),
-                    .o_unknown_command(unknown_command),
-                    .o_eret(eret)
+                    .o_unknown_command(unknown_command)
                   );
   cop0 COPROCESSOR0(  
                     .i_clk(i_clk), 
@@ -109,15 +116,15 @@ module mips();
                     .i_unknown_command(unknown_command),
                     .i_unknown_func(unknown_func),
                     .i_external_interrupt(external_interrupt),
-                    .i_data(),
-                    .i_address(),
+                    .i_data(o_bus_B),
+                    .i_address(o_instr[15:11]),
                     .i_pc_to_epc(o_pc),
-                    .i_mtc0(),
+                    .i_mtc0(mtc0),
                     .i_eret(eret),
                     .o_epc_to_pc(epc_to_pc),
-                    .o_exeption(),
+                    .o_exeption(exception),
                     .o_handler_address(handler_address),
-                    .o_data()
+                    .o_data(cop0_data)
                   );
 
   initial begin //clock set up
