@@ -15,9 +15,22 @@ module fetch(i_clk, i_rst_n, i_execute, i_pcsrc,
   wire [31:0] fetch_pc;
   wire [31:0] fetch_instr;
   
-  pc PC(i_clk, i_rst_n, i_pc, i_pcWrite, fetch_pc); 
-  mux2in1 PCSOURCE (fetch_pc, i_execute, i_pcsrc, i_pc);// mux source of addr of pc
-  rom ROM(fetch_pc, fetch_instr);
+  pc PC ( .i_clk(i_clk), 
+          .i_rst_n(i_rst_n), 
+          .i_pc(i_pc), 
+          .i_pcWrite(i_pcWrite), 
+          .o_pc(fetch_pc)
+        );
+
+  mux2in1 PCSOURCE ( .i_dat0(fetch_pc), 
+                     .i_dat1(i_execute), 
+                     .i_control(i_pcsrc), 
+                     .o_dat(i_pc)
+                    );// mux source of addr of pc
+
+  rom ROM ( .i_addr(fetch_pc), 
+            .o_data(fetch_instr)
+          );
 
   always @(*) begin
      o_fetch_pc    = fetch_pc;
