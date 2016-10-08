@@ -43,8 +43,8 @@ always @(*) begin
   o_mtc0          = 1'b0;
 
   case(i_aluOp)
+      OP_ADDIU:     o_aluControl = F_ADDU;
       OP_ADDI,
-      OP_ADDIU,
       OP_LW,
       OP_SW:        o_aluControl = F_ADD;
       OP_BEQ,
