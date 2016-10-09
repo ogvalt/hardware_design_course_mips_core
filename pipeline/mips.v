@@ -55,6 +55,7 @@ module mips();
   wire         eret;
   wire         exception;
   wire  [31:0] handler_address;
+  wire         mfc0, mtc0;
    
   assign EX_i = {ALUSrc_op1, extOp, ALUctrl, ALUsrc_op2};
   assign M1   = {memToReg, memWrite & !nop, memRead};
@@ -110,11 +111,14 @@ module mips();
                   .o_wrAddr(IDEXrw),
                   .o_nop(nop),
                   .o_unknown_func(unknown_func),
-                  .o_eret(eret)
+                  .o_eret(eret),
+                  .o_mfc0(mfc0), 
+                  .o_mtc0(mtc0)
                 ); // decode block
                
   decode_execute ID_EX( .i_clk(i_clk), 
                         .i_rst_n(i_rst_n),
+                        .i_mtc0(mtc0),
                         .i_imm(instr[25:0]), 
                         .i_busA(decode_op1), 
                         .i_busB(decode_op2), 
@@ -218,12 +222,12 @@ module mips();
                       .i_unknown_command(unknown_command),
                       .i_unknown_func(unknown_func),
                       .i_external_interrupt(external_interrupt),
-                      .i_data(),
-                      .i_address(),
+                      .i_data(busB),
+                      .i_address(IDEXrw),
                       .i_pc_to_epc_from_execute(IDIE_PC),
                       .i_pc_to_epc_from_decode(IFID_PC),
                       .i_pc_to_epc_from_fetch(fetch_pc),
-                      .i_mtc0(),
+                      .i_mtc0(mtc0),
                       .i_eret(eret),
                       .o_epc_to_pc(epc_to_pc),
                       .o_exeption(exception),

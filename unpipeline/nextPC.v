@@ -52,7 +52,7 @@ module nextPC(  i_pc, i_imm, i_jump,
                 );
 
   adder ADD (.i_op1(i_pc), 
-             .i_op2(extend), ]
+             .i_op2(extend), 
              .o_result(add_out)
             );
 

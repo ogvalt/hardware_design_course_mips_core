@@ -6,7 +6,8 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                o_aluCtrl, o_ALUSrc_op1,
                o_nextPC, o_pcsrc,
                o_decode_op1, o_decode_op2,o_wrAddr,
-               o_nop, o_unknown_func, o_eret
+               o_nop, o_unknown_func, o_eret,
+               o_mfc0, o_mtc0
               );
   
   input              i_clk, i_rst_n;
@@ -42,9 +43,11 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   output             o_nop;
   output             o_unknown_func;
   output             o_eret;
-  
+  output             o_mfc0, o_mtc0;
+
   wire        [31:0] busA, busB;
   wire               jr, eret;
+  
   
   localparam WIDTH = 5;
   
@@ -104,8 +107,8 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                         .o_nop(o_nop),
                         .o_unknown_func(o_unknown_func),
                         .o_eret(eret),
-                        .o_mfc0(), 
-                        .o_mtc0()
+                        .o_mfc0(o_mfc0), 
+                        .o_mtc0(o_mtc0)
                         );
 
   assign o_eret = eret;                

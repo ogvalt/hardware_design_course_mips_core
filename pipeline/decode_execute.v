@@ -1,7 +1,7 @@
-module decode_execute(i_clk, i_rst_n,
+module decode_execute(i_clk, i_rst_n, i_mtc0,
                       i_imm, i_busA, i_busB, i_Rw, 
                       i_EX, i_M, i_WB, i_pc,
-                      i_exception,
+                      i_exception, 
                       o_imm, o_busA, o_busB, o_Rw,
                       o_EX, o_M, o_WB, o_pc);
 
@@ -16,6 +16,7 @@ module decode_execute(i_clk, i_rst_n,
   input          i_WB;
   input   [31:0] i_pc;
   input          i_exception;
+  input          i_mtc0;
 
   output reg  [25:0] o_imm;
   output reg  [31:0] o_busA;
@@ -28,7 +29,7 @@ module decode_execute(i_clk, i_rst_n,
   output reg  [31:0] o_pc;
   
   always @(posedge i_clk or i_rst_n) begin
-    if(!i_rst_n | i_exception) begin
+    if(!i_rst_n | i_exception | i_mtc0) begin
       o_imm  <= 0;
       o_busA <= 0;
       o_busB <= 0;
