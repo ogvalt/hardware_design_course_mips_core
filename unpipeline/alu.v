@@ -1,4 +1,3 @@
-//`timescale 1ps/1ps;
 module alu(i_op1, i_op2, i_control, o_result, o_overflow, o_zf);
 
 localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
@@ -26,14 +25,14 @@ always @(i_control, i_op1, i_op2) begin
      F_OR:   o_result = i_op1|i_op2;
     F_ADD:   
       begin
-        result      = i_op1+i_op2;
+        result      = $signed(i_op1) + $signed(i_op2);
         o_result    = result[31:0];
         o_overflow  = result[32];
       end
    F_ADDU:   o_result = i_op1+i_op2;
     F_SUB:   
       begin
-        result      = i_op1-i_op2;
+        result      = $signed(i_op1) - $signed(i_op2);
         o_result    = result[31:0];
         o_overflow  = result[32];
       end

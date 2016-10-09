@@ -2,9 +2,12 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                i_Rs, i_Rt, i_Rd, i_wrDataToReg, i_wrAddr,
                i_pc, i_imm, i_jump, i_bne, i_beq,
                i_ALUres, i_mem, i_mux_ctrl1, i_mux_ctrl2,
-               i_ALUop, o_aluCtrl, o_ALUSrc_op1,
+               i_ALUop, i_exception, 
+               o_aluCtrl, o_ALUSrc_op1,
                o_nextPC, o_pcsrc,
-               o_decode_op1, o_decode_op2,o_wrAddr);
+               o_decode_op1, o_decode_op2,o_wrAddr,
+               o_nop, o_unknown_func, o_eret
+              );
   
   input              i_clk, i_rst_n;
   input              i_c_regDst, i_c_regWrite; //control signal
@@ -25,6 +28,7 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   input       [ 1:0] i_mux_ctrl1, i_mux_ctrl2;
 
   input       [ 5:0] i_ALUop;
+  input              i_exception;
   
   output      [31:0] o_decode_op1; 
   output      [31:0] o_decode_op2; 
@@ -35,9 +39,12 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   output             o_pcsrc;
   output      [ 5:0] o_aluCtrl;
   output             o_ALUSrc_op1;
+  output             o_nop;
+  output             o_unknown_func;
+  output             o_eret;
   
   wire        [31:0] busA, busB;
-  wire               jr;
+  wire               jr, eret;
   
   localparam WIDTH = 5;
   
@@ -81,7 +88,8 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                   .i_bne(i_bne),
                   .i_jr(jr),
                   .i_busA(o_decode_op1), 
-                  .i_busB(o_decode_op2), 
+                  .i_busB(o_decode_op2),
+                  .i_exception(i_exception),
                   .o_nextpc(o_nextPC), 
                   .o_pcsrc(o_pcsrc)
                 );
@@ -92,12 +100,13 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                         .o_aluControl(o_aluCtrl),
                         .o_ALUSrc_op1(o_ALUSrc_op1),
                         .o_jr(jr),
-                        .o_nop(),
-                        .o_unknown_func(),
-                        .o_eret(),
+                        .o_nop(o_nop),
+                        .o_unknown_func(o_unknown_func),
+                        .o_eret(eret),
                         .o_mfc0(), 
                         .o_mtc0()
                         );
-                  
+
+  assign o_eret = eret;                
   
 endmodule

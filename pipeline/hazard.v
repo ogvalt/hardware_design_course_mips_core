@@ -1,5 +1,5 @@
 module hazard ( i_idEx, i_exMem,i_memWb, i_memRead, i_idExregWrite, i_exMemregWrite, 
-                i_memWbregWrite,
+                i_memWbregWrite, i_exception,
                i_Rs, i_Rt, o_forwardA, o_forwardB,
                o_bubble, o_pcwrite, o_idIfwrite);
   
@@ -12,6 +12,7 @@ module hazard ( i_idEx, i_exMem,i_memWb, i_memRead, i_idExregWrite, i_exMemregWr
   input             i_memWbregWrite;
   input       [4:0] i_Rs;
   input       [4:0] i_Rt;
+  input             i_exception;
   
   output reg  [1:0] o_forwardA;
   output reg  [1:0] o_forwardB;
@@ -45,7 +46,7 @@ module hazard ( i_idEx, i_exMem,i_memWb, i_memRead, i_idExregWrite, i_exMemregWr
         o_forwardB <= 2'b00;
         
       //pipeline stall
-      if ((i_memRead==1)&(i_idEx!=0)&((i_idEx==i_Rs)|(i_idEx==i_Rt)))
+      if ((i_memRead==1)&(i_idEx!=0)&((i_idEx==i_Rs)|(i_idEx==i_Rt)) & !i_exception)
         begin
           o_bubble    <= 1'b0;
           o_pcwrite   <= 1'b0;

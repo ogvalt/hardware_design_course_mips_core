@@ -1,21 +1,23 @@
 module execute(i_imm, i_op1, i_op2, i_ALUSrc_op1,
                i_ALUSrc_op2, i_ALUCtrl, i_extOp, 
-               o_op2, o_ALUres);
+               o_op2, o_ALUres,
+               o_arithmetic_overflow
+               );
   
-  input wire  [25:0] i_imm; //immidiate constant input
-  input wire  [31:0] i_op1, i_op2; //operandrs input
-  input wire         i_ALUSrc_op1, i_ALUSrc_op2;
-  input wire  [ 5:0] i_ALUCtrl;
-  input wire         i_extOp; // extender control
+  input  [25:0] i_imm; //immidiate constant input
+  input  [31:0] i_op1, i_op2; //operandrs input
+  input         i_ALUSrc_op1, i_ALUSrc_op2;
+  input  [ 5:0] i_ALUCtrl;
+  input         i_extOp; // extender control
   
-  output wire [31:0] o_op2;
-  output wire [31:0] o_ALUres;
+  output [31:0] o_op2;
+  output [31:0] o_ALUres;
+  output        o_arithmetic_overflow;
   
   wire               zerof; // zero flag - alures=0
   wire        [31:0] extended; //value after extender
   wire        [31:0] aluOp2, aluOp1; //second alu operand
   wire        [ 5:0] ALUCtrl; //aclu control code
-  wire               arithmetic_overflow;
   
   signExtend EXTENDER ( .i_data(i_imm[15:0]), 
                         .i_control(i_extOp), 
@@ -38,7 +40,7 @@ module execute(i_imm, i_op1, i_op2, i_ALUSrc_op1,
             .i_op2  (aluOp2), 
             .i_control(i_ALUCtrl), 
             .o_result(o_ALUres), 
-            .o_overflow(arithmetic_overflow),
+            .o_overflow(o_arithmetic_overflow),
             .o_zf(zerof)
           );
                 

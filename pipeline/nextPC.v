@@ -31,6 +31,7 @@ module nextPC ( i_pc,
   assign o_pcsrc = i_jump | ( zerof & i_beq ) | ( ~zerof & i_bne ) | i_jr;
 
   
+  
   signExtend EXT ( .i_data(i_imm[15:0]), 
                    .i_control(1'b1), 
                    .o_data(ext_o)
