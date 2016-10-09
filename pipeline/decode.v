@@ -90,6 +90,7 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                   .i_busA(o_decode_op1), 
                   .i_busB(o_decode_op2),
                   .i_exception(i_exception),
+                  .i_eret(eret),
                   .o_nextpc(o_nextPC), 
                   .o_pcsrc(o_pcsrc)
                 );

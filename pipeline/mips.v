@@ -3,7 +3,7 @@ module mips();
   reg          i_clk, i_rst_n;
   
   wire  [31:0] nextPC; //from nextPC to PC
-  wire         PCsrc;  // PC source
+  wire  [ 1:0] PCsrc;  // PC source
   wire         PCwrite; // eneble PC to inc / insert bubble 
   wire  [31:0] fetch_pc; //PC out
   wire  [31:0] fetch_instr; //Instruction memory out
@@ -54,6 +54,7 @@ module mips();
   reg          external_interrupt;
   wire         eret;
   wire         exception;
+  wire  [31:0] handler_address;
    
   assign EX_i = {ALUSrc_op1, extOp, ALUctrl, ALUsrc_op2};
   assign M1   = {memToReg, memWrite & !nop, memRead};
@@ -62,14 +63,16 @@ module mips();
                 .i_rst_n(i_rst_n), 
                 .i_execute(nextPC), 
                 .i_pcsrc(PCsrc), 
-                .i_pcWrite(PCwrite), 
+                .i_pcWrite(PCwrite),
+                .i_epc_to_pc(epc_to_pc), 
+                .i_error_handler(handler_address), 
                 .o_fetch_pc(fetch_pc), 
                 .o_fetch_instr(fetch_instr)
                 ); //fetch block
               
   fetch_decode IF_ID( .i_clk  (i_clk), 
                       .i_rst_n(i_rst_n), 
-                      .i_rst_nextPC(PCsrc),
+                      .i_rst_nextPC(PCsrc[0]),
                       .i_we(IFIDwrite), 
                       .i_instr(fetch_instr), 
                       .i_pc(fetch_pc), 
@@ -221,10 +224,10 @@ module mips();
                       .i_pc_to_epc_from_decode(IFID_PC),
                       .i_pc_to_epc_from_fetch(fetch_pc),
                       .i_mtc0(),
-                      .i_eret(),
-                      .o_epc_to_pc(),
+                      .i_eret(eret),
+                      .o_epc_to_pc(epc_to_pc),
                       .o_exeption(exception),
-                      .o_handler_address(),
+                      .o_handler_address(handler_address),
                       .o_data()
                     );
   

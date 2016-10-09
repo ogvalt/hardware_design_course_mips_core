@@ -1,10 +1,14 @@
 module fetch(i_clk, i_rst_n, i_execute, i_pcsrc, 
-             i_pcWrite, o_fetch_pc, o_fetch_instr);
+             i_pcWrite, 
+             i_epc_to_pc, i_error_handler,
+             o_fetch_pc, o_fetch_instr);
   
-  input i_clk;
-  input i_rst_n; //active zero level
-  input i_pcsrc; //mux control
-  input i_pcWrite;
+  input         i_clk;
+  input         i_rst_n; //active zero level
+  input [ 1:0]  i_pcsrc; //mux control
+  input         i_pcWrite;
+  input [31:0]  i_epc_to_pc, 
+                i_error_handler;
   
   input  [31:0] i_execute; // out of nextPC
   
@@ -28,8 +32,8 @@ module fetch(i_clk, i_rst_n, i_execute, i_pcsrc,
   always @(*) begin 
     case(i_pcsrc)
       2'b01:  i_pc = i_execute;
-      2'b10:  begin end
-      2'b11:  begin end
+      2'b10:  i_pc = i_epc_to_pc;
+      2'b11:  i_pc = i_error_handler;
     default: 
       begin
         if(i_pcWrite)
