@@ -56,6 +56,7 @@ module mips();
   wire         exception;
   wire  [31:0] handler_address;
   wire         mfc0, mtc0;
+  wire  [31:0] cop0_data;
    
   assign EX_i = {ALUSrc_op1, extOp, ALUctrl, ALUsrc_op2};
   assign M1   = {memToReg, memWrite & !nop, memRead};
@@ -121,7 +122,7 @@ module mips();
                         .i_mtc0(mtc0),
                         .i_imm(instr[25:0]), 
                         .i_busA(decode_op1), 
-                        .i_busB(decode_op2), 
+                        .i_busB(mfc0 ? cop0_data : decode_op2), 
                         .i_Rw(IDEXrw), 
                         .i_EX(EX_i), 
                         .i_M(M1), 
@@ -223,7 +224,7 @@ module mips();
                       .i_unknown_func(unknown_func),
                       .i_external_interrupt(external_interrupt),
                       .i_data(busB),
-                      .i_address(IDEXrw),
+                      .i_address(instr[15:11]),
                       .i_pc_to_epc_from_execute(IDIE_PC),
                       .i_pc_to_epc_from_decode(IFID_PC),
                       .i_pc_to_epc_from_fetch(fetch_pc),
@@ -232,7 +233,7 @@ module mips();
                       .o_epc_to_pc(epc_to_pc),
                       .o_exeption(exception),
                       .o_handler_address(handler_address),
-                      .o_data()
+                      .o_data(cop0_data)
                     );
   
   initial begin //clock set up

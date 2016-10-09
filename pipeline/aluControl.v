@@ -98,6 +98,7 @@ always @(*) begin
       OP_ANDI:      o_aluControl = F_AND;
       OP_COP0:      
         begin
+          o_aluControl = 0;
           case(i_r_field)
             5'b00100:
               begin : MTC0_COMMAND
@@ -106,6 +107,7 @@ always @(*) begin
             5'b00000:
               begin : MFC0_COMMAND
                 o_mfc0 = 1'b1;
+                o_aluControl = F_ADD;
               end
             5'b10000:
               begin : ERET_COMMAND
@@ -117,7 +119,7 @@ always @(*) begin
             default: 
               o_unknown_func = 1'b1;
           endcase // i_r_field
-          o_aluControl = 0;
+          
         end
       default:      o_aluControl = 0;
   endcase

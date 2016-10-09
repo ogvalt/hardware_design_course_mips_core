@@ -152,7 +152,6 @@ always @(i_instrCode, i_bubble) begin
       	end
       OP_COP0:
         begin
-          o_regDst   = 1'b1;
           if (i_bubble) 
             o_regWrite    = 1'b1;
         end
