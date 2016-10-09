@@ -8,33 +8,36 @@ module fetch(i_clk, i_rst_n, i_execute, i_pcsrc,
   
   input  [31:0] i_execute; // out of nextPC
   
-  output reg [31:0] o_fetch_pc; //input for nextPC and PC
-  output reg [31:0] o_fetch_instr; //instraction fetch
+  output [31:0] o_fetch_pc; //input for nextPC and PC
+  output [31:0] o_fetch_instr; //instraction fetch
   
-  wire [31:0] i_pc; //input previously addr
+  reg  [31:0] i_pc; //input previously addr
   wire [31:0] fetch_pc;
   wire [31:0] fetch_instr;
   
   pc PC ( .i_clk(i_clk), 
           .i_rst_n(i_rst_n), 
-          .i_pc(i_pc), 
-          .i_pcWrite(i_pcWrite), 
-          .o_pc(fetch_pc)
+          .i_pc(i_pc),  
+          .o_pc(o_fetch_pc)
         );
 
-  mux2in1 PCSOURCE ( .i_dat0(fetch_pc), 
-                     .i_dat1(i_execute), 
-                     .i_control(i_pcsrc), 
-                     .o_dat(i_pc)
-                    );// mux source of addr of pc
-
-  rom ROM ( .i_addr(fetch_pc), 
-            .o_data(fetch_instr)
+  rom ROM ( .i_addr(o_fetch_pc), 
+            .o_data(o_fetch_instr)
           );
 
-  always @(*) begin
-     o_fetch_pc    = fetch_pc;
-     o_fetch_instr = fetch_instr;
+  always @(*) begin 
+    case(i_pcsrc)
+      2'b01:  i_pc = i_execute;
+      2'b10:  begin end
+      2'b11:  begin end
+    default: 
+      begin
+        if(i_pcWrite)
+          i_pc = o_fetch_pc + 1'b1;
+        else 
+          i_pc = o_fetch_pc;
+      end
+    endcase // i_pcsrc
   end
 
 endmodule

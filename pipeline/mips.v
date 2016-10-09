@@ -31,8 +31,8 @@ module mips();
   wire  [31:0] decode_op1, decode_op2;
   wire  [ 5:0] ALUop;
   wire         ALUsrc_op2;
-  wire  [ 7:0] EX_i;
-  wire  [ 7:0] EX;
+  wire  [ 8:0] EX_i;
+  wire  [ 8:0] EX;
   wire  [ 2:0] M1;
   wire         memToReg, memWrite, memRead;
   wire  [ 2:0] M2;
@@ -44,8 +44,10 @@ module mips();
   wire  [31:0] dataAddr;
   wire  [31:0] dataToMem;
   wire         bubble;
-  
-  assign EX_i = {extOp,ALUop,ALUsrc_op2};
+  wire  [ 5:0] ALUctrl;
+  wire         ALUSrc_op1;
+   
+  assign EX_i = {ALUSrc_op1, extOp, ALUctrl, ALUsrc_op2};
   assign M1   = {memToReg, memWrite, memRead};
   
   fetch FETCH(  .i_clk  (i_clk), 
@@ -85,6 +87,9 @@ module mips();
                   .i_mem(MEMres), 
                   .i_mux_ctrl1(mux_ctrl1), 
                   .i_mux_ctrl2(mux_ctrl2),
+                  .i_ALUop(ALUop),
+                  .o_aluCtrl(ALUctrl),
+                  .o_ALUSrc_op1(ALUSrc_op1),
                   .o_nextPC(nextPC), 
                   .o_pcsrc(PCsrc), 
                   .o_decode_op1(decode_op1), 
@@ -113,8 +118,9 @@ module mips();
   execute EXECUTE(  .i_imm(imm), 
                     .i_op1(busA), 
                     .i_op2(busB),
+                    .i_ALUSrc_op1(EX[8]),
                     .i_ALUSrc_op2(EX[0]), 
-                    .i_ALUop(EX[6:1]), 
+                    .i_ALUCtrl(EX[6:1]), 
                     .i_extOp(EX[7]), 
                     .o_op2(op2), 
                     .o_ALUres(ALUres)

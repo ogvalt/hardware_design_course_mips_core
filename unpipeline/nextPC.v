@@ -48,7 +48,7 @@ module nextPC(  i_pc, i_imm, i_jump,
   
   signExtend EXT( .i_dat(i_imm[15:0]), 
                   .i_control(1'b1), 
-                  o_data(extend)
+                  .o_data(extend)
                 );
 
   adder ADD (.i_op1(i_pc), 

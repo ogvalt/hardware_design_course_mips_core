@@ -10,7 +10,7 @@ module fetch_decode(i_clk, i_rst_n, i_rst_nextPC, i_we, i_instr, i_pc, o_instr, 
   
   always @(posedge i_clk or i_rst_n) begin
     if(!i_rst_n|i_rst_nextPC) begin
-      o_instr <= 32'bx;
+      o_instr <= 32'b0;
       o_pc    <= 0;
     end
     else begin
