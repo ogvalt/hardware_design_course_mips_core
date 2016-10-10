@@ -1,6 +1,7 @@
-module mips();
+module mips(i_clk, i_rst_n, i_external_interrupt);
   
-  reg          i_clk, i_rst_n;
+  input        i_clk, i_rst_n;
+  input        i_external_interrupt;
   
   wire  [31:0] nextPC; //from nextPC to PC
   wire  [ 1:0] PCsrc;  // PC source
@@ -51,7 +52,7 @@ module mips();
   wire         unknown_command;
   wire         unknown_func;
   wire         arithmetic_overflow;
-  reg          external_interrupt;
+
   wire         eret;
   wire         exception;
   wire  [31:0] handler_address;
@@ -223,7 +224,7 @@ module mips();
                       .i_arithmetic_overflow(arithmetic_overflow),
                       .i_unknown_command(unknown_command),
                       .i_unknown_func(unknown_func),
-                      .i_external_interrupt(external_interrupt),
+                      .i_external_interrupt(i_external_interrupt),
                       .i_data(busB),
                       .i_address(instr[15:11]),
                       .i_pc_to_epc_from_execute(IDIE_PC),
@@ -236,17 +237,5 @@ module mips();
                       .o_handler_address(handler_address),
                       .o_data(cop0_data)
                     );
-  
-  initial begin //clock set up
-    external_interrupt = 0;
-    i_clk = 1'b0;
-    forever #1 i_clk = ~i_clk;
-  end
-  initial begin //initial reset
-    i_rst_n = 1'b0;
-    #3;
-    i_rst_n = 1'b1;
-  end 
-  initial $readmemh("rom_init.dat", FETCH.ROM.memory);
-  
+    
 endmodule 

@@ -1,6 +1,8 @@
-module mips();
-  reg         i_clk;
-  reg         i_rst_n;
+module mips(i_clk, i_rst_n, i_external_interrupt);
+
+  input         i_clk;
+  input         i_rst_n;
+  input         i_external_interrupt; //external interrupt signal
   
   wire [31:0] o_pc;
   wire [31:0] i_pc;
@@ -32,7 +34,6 @@ module mips();
   wire        unknown_command; // unknown command in datapath signal
   wire        unknown_func; // unknown func of R-type command in datapath
   wire        arithmetic_overflow; // arithmetic overflow signal
-  reg         external_interrupt; //external interrupt signal
   wire        eret;
   wire [31:0] epc_to_pc;
   wire [31:0] handler_address;
@@ -116,7 +117,7 @@ module mips();
                     .i_arithmetic_overflow(arithmetic_overflow),
                     .i_unknown_command(unknown_command),
                     .i_unknown_func(unknown_func),
-                    .i_external_interrupt(external_interrupt),
+                    .i_external_interrupt(i_external_interrupt),
                     .i_data(o_bus_B),
                     .i_address(o_instr[15:11]),
                     .i_pc_to_epc(o_pc),
@@ -128,16 +129,4 @@ module mips();
                     .o_data(cop0_data)
                   );
 
-  initial begin //clock set up
-    external_interrupt = 1'b0;
-    i_clk <= 1'b0;
-    #1;
-    forever #1 i_clk <= ~i_clk;
-  end
-  initial begin //initial reset
-    i_rst_n <= 1'b0;
-    #1;
-    i_rst_n <= 1'b1;
-  end 
-  initial $readmemh("G:/STUDING/melexis/lab5/unpipeline/rom_init.dat", FETCH.ROM.memory); 
 endmodule
