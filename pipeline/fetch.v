@@ -16,8 +16,6 @@ module fetch(i_clk, i_rst_n, i_execute, i_pcsrc,
   output [31:0] o_fetch_instr; //instraction fetch
   
   reg  [31:0] i_pc; //input previously addr
-  wire [31:0] fetch_pc;
-  wire [31:0] fetch_instr;
   
   pc PC ( .i_clk(i_clk), 
           .i_rst_n(i_rst_n), 
@@ -37,7 +35,7 @@ module fetch(i_clk, i_rst_n, i_execute, i_pcsrc,
     default: 
       begin
         if(i_pcWrite)
-          i_pc = o_fetch_pc + 1'b1;
+          i_pc = o_fetch_pc + 3'd4;
         else 
           i_pc = o_fetch_pc;
       end

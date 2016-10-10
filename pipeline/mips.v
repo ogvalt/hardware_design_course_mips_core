@@ -57,6 +57,7 @@ module mips();
   wire  [31:0] handler_address;
   wire         mfc0, mtc0;
   wire  [31:0] cop0_data;
+  wire  [31:0] epc_to_pc;
    
   assign EX_i = {ALUSrc_op1, extOp, ALUctrl, ALUsrc_op2};
   assign M1   = {memToReg, memWrite & !nop, memRead};

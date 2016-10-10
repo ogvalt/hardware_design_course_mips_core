@@ -1,4 +1,4 @@
-module alu(i_op1, i_op2, i_control, o_result, o_overflow, o_zf);
+module alu(i_op1, i_op2, i_control, o_result, o_overflow);
 
 localparam F_AND = 6'b100100, F_OR = 6'b100101,   F_ADD = 6'b100000;
 localparam F_SUB = 6'b100010, F_SLT = 6'b101010, F_NOR = 6'b100111;
@@ -12,11 +12,8 @@ input       [31:0]  i_op1, i_op2;
 input       [5:0]   i_control;
 output  reg [31:0]  o_result;
 output  reg         o_overflow;
-output              o_zf;
 
 reg         [32:0]  result;
-
-assign o_zf = (o_result==0);
 
 always @(i_control, i_op1, i_op2) begin
   o_overflow = 0;

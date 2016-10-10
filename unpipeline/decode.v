@@ -35,7 +35,7 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
                       .o_rdata2 (o_decode_op2)
                     );
 
-  mux2in1 REGDEST ( 
+  mux2in1 #(.WIDTH(5)) REGDEST ( 
                     .i_dat0(i_Rt), 
                     .i_dat1(i_Rd), 
                     .i_control(i_c_regDst), 

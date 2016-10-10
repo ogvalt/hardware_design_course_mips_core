@@ -8,7 +8,7 @@ always @(posedge i_clk, negedge i_rst_n) begin
       if(!i_rst_n)
         o_pc <= 32'b0;
       else
-        o_pc[31:0] <= i_pc[31:0];        
+        o_pc[31:0] <= i_pc[31:0];  
       end
 endmodule
 

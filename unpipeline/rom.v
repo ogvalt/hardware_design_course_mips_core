@@ -8,6 +8,6 @@ module rom ( i_addr, o_data );
 
 	reg [DATA_WIDTH-1:0] memory [0:MEM_WIDTH];
 
-	assign o_data = memory[i_addr];
+	assign o_data = memory[i_addr[31:2]];
 
 endmodule

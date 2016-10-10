@@ -37,7 +37,7 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
   output      [4:0]  o_wrAddr; //output of write address (need for corect pipelining)
   
   output      [31:0] o_nextPC;
-  output             o_pcsrc;
+  output      [ 1:0] o_pcsrc;
   output      [ 5:0] o_aluCtrl;
   output             o_ALUSrc_op1;
   output             o_nop;

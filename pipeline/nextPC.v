@@ -22,7 +22,7 @@ module nextPC ( i_pc,
   input   [31:0]  i_busB;
   input           i_exception;
   input           i_eret;
-  
+
   output      [31:0]  o_nextpc;
   output  reg [ 1:0]  o_pcsrc;
 

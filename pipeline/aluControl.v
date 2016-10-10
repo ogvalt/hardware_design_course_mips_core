@@ -48,7 +48,7 @@ always @(*) begin
       OP_LW,
       OP_SW:        o_aluControl = F_ADD;
       OP_BEQ,
-      OP_BNE :      o_aluControl = F_SUB;
+      OP_BNE :      o_aluControl = 0;
       OP_RTYPE: 
         begin
           case(i_func)
