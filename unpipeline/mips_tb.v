@@ -26,7 +26,17 @@ module mips_tb();
   		end else begin
   			$display("SUCCESS");
   		end
-  	$finish;
+      i_rst_n = 1'b0;
+      #3;
+      i_rst_n = 1'b1;
+      $readmemh("test2.dat", MIPS.FETCH.ROM.memory);
+      // @(posedge MIPS.MEMORY.RAM.mem[0][0]);
+      // if (MIPS.MEMORY.RAM.mem[4] !== 32'h15) begin
+      //   $display("ERROR");
+      // end else begin
+      //   $display("SUCCESS");
+      // end
+  	// $finish;
   	end
 	
 

@@ -100,7 +100,7 @@ module decode (i_clk, i_rst_n, i_c_regDst, i_c_regWrite,
 
   aluControl ALUCONTROL(.i_aluOp(i_ALUop), 
                         .i_func(i_imm[5:0]), 
-                        .i_r_field(i_imm[10:6]|i_imm[25:21]),
+                        .i_r_field({i_imm[25:21], i_imm[10:6]}),
                         .o_aluControl(o_aluCtrl),
                         .o_ALUSrc_op1(o_ALUSrc_op1),
                         .o_jr(jr),

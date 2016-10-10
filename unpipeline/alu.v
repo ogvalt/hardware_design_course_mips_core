@@ -47,7 +47,7 @@ always @(i_control, i_op1, i_op2) begin
    F_SRLV,
     F_SRL:   o_result = i_op2 >> i_op1;
    F_SRAV,
-    F_SRA:   o_result = i_op2 >>> i_op1;
+    F_SRA:   o_result = $signed(i_op2) >>> i_op1;
    F_ROTR,   
   F_ROTRV:   o_result = i_op2 << (32-i_op1[4:0]) | i_op2 >> i_op1[4:0];
   default: o_result = 32'b0;

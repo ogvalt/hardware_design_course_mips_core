@@ -71,7 +71,7 @@ always @(*) begin
               end 
             F_SRL:
               begin
-                if(i_r_field[0])  o_aluControl = F_ROTR;
+                if(i_r_field[5])  o_aluControl = F_ROTR;
                 else              o_aluControl = i_func;
                 o_ALUSrc_op1 = 1'b1;
               end 
@@ -98,7 +98,7 @@ always @(*) begin
       OP_ANDI:      o_aluControl = F_AND;
       OP_COP0:      
         begin
-          case(i_r_field)
+          case(i_r_field[9:5])
             5'b00100:
               begin : MTC0_COMMAND
                 o_mtc0 = 1'b1;
