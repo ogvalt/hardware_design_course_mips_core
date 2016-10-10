@@ -102,6 +102,19 @@ module mips_tb();
 	      $display("SUCCESS");
 	    end
 
+	    reset_memory();
+	    $readmemh("test7.dat", MIPS.FETCH.ROM.memory);
+	    @(posedge i_clk);
+  		reset_core(); 
+  		MIPS.COPROCESSOR0.handler_address = 32'h2c; 
+  		MIPS.COPROCESSOR0.status = 32'b0111_0000_0001;    	
+	    @(posedge MIPS.MEMORY.RAM.mem[0][0]);
+	    if (MIPS.MEMORY.RAM.mem[4] !== 32'h01) begin
+	      $display("ERROR");
+	    end else begin
+	      $display("SUCCESS");
+	    end
+
 
 	$finish;
   	end

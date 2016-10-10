@@ -23,7 +23,7 @@ localparam F_ERET = 6'b011000;
 
 input       [5:0]   i_aluOp;
 input       [5:0]   i_func;
-input       [4:0]   i_r_field;
+input       [9:0]   i_r_field;
 output  reg [5:0]   o_aluControl;
 output  reg         o_ALUSrc_op1;
 output  reg         o_jr;
