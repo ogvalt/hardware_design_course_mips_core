@@ -129,7 +129,7 @@ module mips(i_clk, i_rst_n, i_external_interrupt);
                         .i_EX(EX_i), 
                         .i_M(M1), 
                         .i_WB(IDEXwb & !nop), 
-                        .i_pc(IDIE_PC),
+                        .i_pc(IFID_PC),
                         .i_exception(exception),
                         .o_imm(imm), 
                         .o_busA(busA), 

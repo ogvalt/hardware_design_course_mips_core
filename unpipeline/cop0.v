@@ -35,6 +35,7 @@ output 	reg	[31:0]		o_epc_to_pc;
 output 	reg				o_exeption;
 output 	reg [31:0]		o_handler_address;
 output 	reg [31:0]		o_data;
+reg			[31:0] 		handler_address;
 
 reg	 		[31:0]		epc, cause, status;
 reg 					interrupt_processing; 
@@ -49,6 +50,7 @@ assign 		epc_we =(i_arithmetic_overflow & status[8] |
 always @(posedge i_clk or negedge i_rst_n) begin 
 	if(~i_rst_n) begin
 		epc <= 0;
+		handler_address <= 32'h5;
 	end else begin
 		if (epc_we) begin
 			epc <= i_pc_to_epc;	
@@ -94,7 +96,7 @@ always @(*) begin
 
 	o_epc_to_pc 		= epc;
 	o_exeption 			= epc_we;
-	o_handler_address 	= 32'h5;
+	o_handler_address 	= handler_address;
 end
 
 endmodule

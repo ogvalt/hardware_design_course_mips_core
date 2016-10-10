@@ -29,7 +29,7 @@ module fetch( i_clk, i_rst_n,
   always @(*) begin : mux4in1_block
     case(i_pcsrc)
         2'b01:  i_pc = i_execute;
-        2'b10:  i_pc = i_epc_to_pc; 
+        2'b10:  i_pc = i_epc_to_pc + 3'd4; 
         2'b11:  i_pc = i_error_handler;
       default:  i_pc = o_fetch_pc + 3'd4;
     endcase // i_pcsrc
