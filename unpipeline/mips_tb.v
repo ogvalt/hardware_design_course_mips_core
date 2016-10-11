@@ -2,7 +2,7 @@ module mips_tb();
 
 	reg        i_clk, i_rst_n;
   reg        i_external_interrupt;
-  integer    i;
+  integer    i, error;
 
 	mips MIPS( .i_clk(i_clk), 
 			   .i_rst_n(i_rst_n), 
@@ -37,7 +37,7 @@ module mips_tb();
       reset_core();
     end 
     initial begin
-      
+      error = 0;
       $display("-------------TEST #1-------------");
       $display("Start time: \t %t", $time);
       $readmemh("test1.dat", MIPS.FETCH.ROM.memory);
@@ -45,6 +45,7 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h15) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
@@ -60,6 +61,7 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h7) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
@@ -75,10 +77,11 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h14) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
-    $display("-----------END TEST #3-----------\n");
+      $display("-----------END TEST #3-----------\n");
 
       $display("-------------TEST #4-------------");
       $display("Start time: \t %t", $time);
@@ -90,6 +93,7 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h8f0ff00b) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
@@ -105,6 +109,7 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h0ffffffc) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
@@ -121,6 +126,7 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h01) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
@@ -138,6 +144,7 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h01) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
@@ -160,9 +167,11 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h01) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
+      MIPS.COPROCESSOR0.status = 32'b0001_0000_0001;
       $display("-----------END TEST #8-----------\n");
 
       $display("-------------TEST #9-------------");
@@ -176,10 +185,33 @@ module mips_tb();
       $display("End time: \t %t", $time);
       if (MIPS.MEMORY.RAM.mem[4] !== 32'h06) begin
         $display("ERROR");
+        error = error + 1;
       end else begin
         $display("SUCCESS");
       end
       $display("-----------END TEST #9-----------\n");
+
+      $display("-------------TEST #10------------");
+      $display("Start time: \t %t", $time);
+      reset_memory();
+      $readmemh("test10.dat", MIPS.FETCH.ROM.memory);
+      @(posedge i_clk);
+      reset_core();  
+      @(posedge MIPS.MEMORY.RAM.mem[0][0]);
+      $display("End time: \t %t", $time);
+      if (MIPS.MEMORY.RAM.mem[4] !== 32'h06) begin
+        $display("ERROR");
+        error = error + 1;
+      end else begin
+        $display("SUCCESS");
+      end
+      $display("-----------END TEST #10----------\n");
+
+      if (error == 0) begin
+        $display("All tests complete successful!!!!!!");
+      end else begin
+        $display("There are some errors in design.\n # of errors: %d",error);
+      end
 
 
     $finish;
