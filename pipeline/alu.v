@@ -13,7 +13,7 @@ input       [5:0]   i_control;
 output  reg [31:0]  o_result;
 output  reg         o_overflow;
 
-reg         [32:0]  result;
+reg 				extra;
 
 always @(i_control, i_op1, i_op2) begin
   o_overflow = 0;
@@ -22,16 +22,14 @@ always @(i_control, i_op1, i_op2) begin
      F_OR:   o_result = i_op1|i_op2;
     F_ADD:   
       begin
-        result      = $signed(i_op1) + $signed(i_op2);
-        o_result    = result[31:0];
-        o_overflow  = result[32];
+        {extra,o_result} = {i_op1[31],i_op1} + {i_op2[31],i_op2};
+        o_overflow = (({extra, o_result[31]} == 2'b01) | ({extra, o_result[31]} == 2'b10));
       end
    F_ADDU:   o_result = i_op1 + i_op2;
     F_SUB:   
       begin
-        result      = $signed(i_op1) - $signed(i_op2);
-        o_result    = result[31:0];
-        o_overflow  = result[32];
+        {extra,o_result} = {i_op1[31],i_op1} - {i_op2[31],i_op2};
+        o_overflow = (({extra, o_result[31]} == 2'b01) | ({extra, o_result[31]} == 2'b10));
       end
    F_SUBU:   o_result = i_op1 - i_op2;
     F_SLT:   o_result = $signed(i_op1)<$signed(i_op2) ? 1 : 0;
