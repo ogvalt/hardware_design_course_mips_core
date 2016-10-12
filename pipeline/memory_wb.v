@@ -9,7 +9,7 @@ module memory_writeback (i_clk, i_rst_n, i_WB,
   output reg  [ 4:0] o_Rw;
   output reg         o_WB;
   
-  always @(posedge i_clk or i_rst_n) begin
+  always @(posedge i_clk or negedge i_rst_n) begin
     if (!i_rst_n) begin
       o_data <= 0;
       o_Rw   <= 0;

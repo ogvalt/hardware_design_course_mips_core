@@ -23,7 +23,6 @@ module nextPC(  i_pc, i_imm, i_jump,
   wire    [31:0]  extend;
   
   assign imm_concat = i_jr ? i_Rs : {i_pc[31:28],i_imm[25:0],2'b0};
-  // assign o_pcsrc = i_jump | (i_zerof&i_beq) | (~i_zerof&i_bne) | i_jr;
 
   always @(*) begin 
     case(1'b1)

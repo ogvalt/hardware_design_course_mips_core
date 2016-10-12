@@ -6,7 +6,7 @@ module mux4in1 (i_op1, i_op2, i_op3, i_op4, i_ctrl, o_res);
   output reg [31:0] o_res;
   
   
-  always @*
+  always @(*)
     begin
       case (i_ctrl)
         2'b00: o_res <= i_op1;

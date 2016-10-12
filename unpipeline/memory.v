@@ -9,10 +9,10 @@ module memory (i_clk, i_alu, i_data, i_memWrite, i_memToReg, o_data);
   
   output [31:0] o_data;
   
-  wire        [31:0] data;
+  wire   [31:0] data;
   
   ram RAM (.i_clk(i_clk), 
-  		   .i_addr(i_alu[5:0]), 
+  		   .i_addr(i_alu), 
   		   .i_data(i_data), 
   		   .i_we(i_memWrite), 
   		   .o_data(data)

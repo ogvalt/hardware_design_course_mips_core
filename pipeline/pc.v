@@ -9,5 +9,5 @@ always @(posedge i_clk or negedge i_rst_n) begin
         o_pc <= 32'b0;
       else
         o_pc[31:0] <= i_pc[31:0];  
-  end
+  	end
 endmodule

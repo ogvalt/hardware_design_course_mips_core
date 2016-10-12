@@ -28,7 +28,7 @@ module decode_execute(i_clk, i_rst_n, i_mtc0,
   output reg         o_WB;
   output reg  [31:0] o_pc;
   
-  always @(posedge i_clk or i_rst_n) begin
+  always @(posedge i_clk or negedge i_rst_n) begin
     if(!i_rst_n | i_exception | i_mtc0) begin
       o_imm  <= 0;
       o_busA <= 0;

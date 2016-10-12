@@ -16,7 +16,7 @@ module execute_memory (i_clk, i_rst_n, i_alures, i_busB,
   output reg  [ 1:0] o_M;
   output reg         o_WB;
   
-  always @(posedge i_clk or i_rst_n) begin
+  always @(posedge i_clk or negedge i_rst_n) begin
     if(!i_rst_n) begin
       o_alures <= 0;
       o_busB   <= 0;
