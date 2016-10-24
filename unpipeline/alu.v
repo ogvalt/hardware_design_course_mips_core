@@ -18,8 +18,7 @@ reg                 extra;
 
 assign o_zf = (o_result==0);
 
-always @(i_control, i_op1, i_op2) begin
-  o_overflow = 0;
+always @(*) begin
   case(i_control)
     F_AND:   o_result = i_op1&i_op2;
      F_OR:   o_result = i_op1|i_op2;
